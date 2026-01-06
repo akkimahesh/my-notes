@@ -1,0 +1,44 @@
+Terraform
+---------
+1. Terraform is a infrastructure as a tool. we automate the cloud infrastructure using Terraform. Not only cloud it provides lot of providers.
+2. simply we can tell Terraform is a inventory management. (we can see entire infra using Terraform without login console).
+
+consistent infra
+----------------
+same code we can use multiple environments. so we can call Terraform has a consistent infra.
+
+declarative code
+----------------
+Terraform is has a declarative code whatever we ask terraform will create it. if you follow proper syntax and no need follow sequence.
+
+Dependancy management
+---------------------
+we only ask the resources. terraform will take of dependancies.
+
+Topics:
+------
+variables
+loops
+conditions
+functions
+datatypes
+
+commands
+--------
+terraform init--> initializes the provider. and created .terraform folder. this folder contains plugins.
+
+terraform plan--> it just a plan, we apply the actual command it shows the resources what will be created.
+
+terraform apply--> read the .tf files and created the resources what we write there.
+
+terraform destroy--> it deletes the resources.
+
+syntax of variable
+------------------
+variable "variable_name" {
+      key: value
+      type: 
+      list[]
+
+}
+
