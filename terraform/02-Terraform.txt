@@ -1,0 +1,49 @@
+Variables
+---------
+variable precedance:
+1. command line -var="instance_type=t3.micro"
+2. -var-file="roboshop.tfvars"
+3. terraform.tfvars 
+4. prompt
+
+variable: variable stores the value and we can use it whenever we want just calling by var.<variable_name> .
+
+conditions
+----------
+terraform have conditions also if condition pass..? execute this : if fail execute this.
+
+syntax of condition
+-------------------
+if condition ? statement1 : statement2
+
+instance_type = var.instance_names == mongodb ? t3.small : t2.micro
+
+count: count is a keyword used to execute same script multiple times. for example if we want create multiple instance like 5, so we just keep count = 5 it automatically create 5 instances from same script.
+
+output block
+------------
+output block is used to get resources info in the terminal level after created resources.
+
+syntax of output block
+----------------------
+output "aws_instance_info" #here name shoud be anything {
+
+  value = var.aws_instance_roboshop.id
+  
+  }
+  
+Here it print the instance id in the terminal.
+
+functions
+---------
+terraform provide some predefined functions. here we have no chance to create our own functions. we just use it whenever we want and all functions available in terraform registry.
+
+length
+join
+split etc.
+
+locals
+------
+locals is also a like variables but it has some extra capabilities. we can here expressions, functions, conditions. beacause of locals our main.tf file have better readability.
+
+
