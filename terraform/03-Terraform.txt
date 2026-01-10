@@ -29,4 +29,9 @@ if the two devops enginners are working together then they apply same terraform 
 get duplicates and error (like resouces already existed). beacause they both have their induvidual statefiles. so 
 terraform dont know what actually created previousy. 
 
+security
+--------
+if two devOps enginners tring to apply terraaform commands correspondingly the one user can be locked. because of statefile
+stored in remote state that locked by .lock.info file. So statefile not to be changed while some infra is creating... 
+
 
