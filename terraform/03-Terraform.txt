@@ -1,0 +1,32 @@
+data-sources
+------------
+data source block in terraform is mainly responsible for getting right resouce details from infra if dynamic changes happens or not.
+
+syntax for data_source
+----------------------
+data "<resource_name>" "example" {
+          statements
+}
+
+for_each
+--------
+for_each is key word in terraform used for loop items that must be type = map. like "key = value"
+
+To get sequence of items we use "each" key word. for example each.key and each.value
+
+dynamic
+--------
+dynamic is also used for loop the items but we used it when blocks are repeated inside the resource.
+
+statefile and remote statefile
+------------------------------
+
+1.statefile is reposible for storing the resouces details after execute the "terraform apply" command.
+
+collaboration
+--------------
+if the two devops enginners are working together then they apply same terraform code in their locals then abiously 
+get duplicates and error (like resouces already existed). beacause they both have their induvidual statefiles. so 
+terraform dont know what actually created previousy. 
+
+
