@@ -1,0 +1,20 @@
+Topics
+-------
+multi-env-setup
+provisioners
+
+multi-env-setup
+---------------
+3 types
+1. create separate folders for dev and prod and then create tfvars files in both folders.
+2. terraform workspaces
+3. create individuals terraform code.
+
+provisioners
+------------
+we have 3 types of provisioners are there 
+local-exec
+remote-exec
+file
+
+all syntax available in repository

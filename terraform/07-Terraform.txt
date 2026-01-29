@@ -1,0 +1,18 @@
+This is session 08 notes
+
+create sg module and use it for our roboshop project.
+
+To create Sg we must need the vpc_id right we can refer that from ssm. because we develop two different modules VPC and Sg. so are not same.
+
+here ssm is act as a central location. like GitHub.
+
+terraform ssm syntax
+--------------------
+
+resource "aws_ssm_parameter" "" {
+
+}
+
+join() --> this function is used list to string. join(separator, list) "join(",", module.roboshop.subnets_ids)"
+
+terraform force-unlock <LockFile ID> --> to unlock lock file. while we stop executing configuration by manual.

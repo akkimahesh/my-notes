@@ -34,4 +34,8 @@ security
 if two devOps enginners tring to apply terraaform commands correspondingly the one user can be locked. because of statefile
 stored in remote state that locked by .lock.info file. So statefile not to be changed while some infra is creating... 
 
+terraform import
+----------------
+Run terraform import <resource_type>.<resource_name> <aws_resource_id>. For example, to import an EC2 instance: terraform import aws_instance.example i-1234567890abcdef0. Terraform updates the state file immediately after successful import.
+
 

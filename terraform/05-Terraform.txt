@@ -1,0 +1,33 @@
+modules
+-------
+modules is also same concept of functions in shell scripting. write the code once and use it for different team when same requirment.
+
+syntax
+------
+module "name"{
+
+}
+
+vpc
+---
+virtual private cloud
+
+vpc is isolation network within the aws. we can create our own n/w that doesnt have access eventhough aws.
+
+CIDR- classless inter domain range
+
+using this we can assaign certain number of ip address to the vpc. range must be start with 0.0.0.0/16 that means 65k ip address.
+
+so here vpc have 65k ip address 
+
+NAT
+---
+NETWORK ADDRESS TRANSLATION
+
+nat gateway mainly used for outgoing traffic but not incoming traffic.
+
+(for example server wants to download packages, software so here nat gateway provides internet.)
+
+
+outgoing traffic: requesting something from the server. (like downloading the packages)
+inconing traffic: fetching data from local to server. (like entering into the server) 
