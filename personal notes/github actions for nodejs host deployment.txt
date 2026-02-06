@@ -1,0 +1,70 @@
+name: CICD FOR DEV & QA
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-dev:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt install -y nodejs
+
+      - name: Deploy DEV
+        run: |
+          sudo mkdir -p /var/www/scutiArts
+          sudo rsync -av --delete $GITHUB_WORKSPACE/ /var/www/scutiArts/
+          sudo chown -R $USER:$USER /var/www/scutiArts
+
+      - name: Set DEV port
+        run: |
+          ENV=/var/www/scutiArts/.env
+          PORT=8000
+          [ -f "$ENV" ] && sed -i "s/^PORT=.*/PORT=$PORT/" "$ENV" || echo "PORT=$PORT" > "$ENV"
+
+      - name: Install deps (DEV)
+        working-directory: /var/www/scutiArts
+        run: npm install
+
+      - name: Start DEV app
+        working-directory: /var/www/scutiArts
+        run: |
+          pm2 delete Scutiarts-dev || true
+          pm2 start server.js --name Scutiarts-dev --cwd /var/www/scutiArts
+          pm2 save
+
+  deploy-qa:
+    runs-on: self-hosted
+    needs: deploy-dev
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy QA
+        run: |
+          sudo mkdir -p /var/www/scutiArts1
+          sudo rsync -av --delete $GITHUB_WORKSPACE/ /var/www/scutiArts1/
+          sudo chown -R $USER:$USER /var/www/scutiArts1
+
+      - name: Set QA port
+        run: |
+          ENV=/var/www/scutiArts1/.env
+          PORT=8001
+          [ -f "$ENV" ] && sed -i "s/^PORT=.*/PORT=$PORT/" "$ENV" || echo "PORT=$PORT" > "$ENV"
+
+      - name: Install deps (QA)
+        working-directory: /var/www/scutiArts1
+        run: npm install
+
+      - name: Start QA app
+        working-directory: /var/www/scutiArts1
+        run: |
+          pm2 delete Scutiarts-qa || true
+          pm2 start server.js --name Scutiarts-qa --cwd /var/www/scutiArts1
+          pm2 save
