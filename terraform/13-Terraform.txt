@@ -1,0 +1,4 @@
+cloud fornt (CDN)
+-----------------
+cloud front stories data from origin as a cache. so user can access it low latency from the edge locations.
+
