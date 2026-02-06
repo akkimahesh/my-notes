@@ -1,0 +1,124 @@
+1 EC2 / 1 Public IP
+
+1 domain → maheshakki.shop
+
+3 environments
+
+Dev → /var/www/dev → port 3000
+
+QA → /var/www/qa → port 4000
+
+Prod → /var/www/prod → port 8000
+
+Want:
+
+dev.maheshakki.shop   → Dev
+qa.maheshakki.shop    → QA
+maheshakki.shop       → Prod
+
+🔑 Key concept (same as before)
+
+👉 DNS → IP only
+👉 Nginx decides which port/directory based on subdomain
+
+STEP 1️⃣ DNS (same IP for all)
+
+Create A records:
+
+Name	Value
+maheshakki.shop	EC2 Public IP
+dev.maheshakki.shop	EC2 Public IP
+qa.maheshakki.shop	EC2 Public IP
+STEP 2️⃣ Install Nginx (if not installed)
+sudo yum install nginx -y
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+STEP 3️⃣ Nginx config (IMPORTANT PART)
+
+📄 Create config file:
+
+sudo vi /etc/nginx/conf.d/maheshakki.conf
+
+🔁 Paste EXACTLY this (replace ports if needed)
+# -------------------
+# DEV
+# -------------------
+server {
+    listen 80;
+    server_name dev.maheshakki.shop;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# -------------------
+# QA
+# -------------------
+server {
+    listen 80;
+    server_name qa.maheshakki.shop;
+
+    location / {
+        proxy_pass http://localhost:4000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# -------------------
+# PROD
+# -------------------
+server {
+    listen 80;
+    server_name maheshakki.shop;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+STEP 4️⃣ Test & Reload Nginx
+sudo nginx -t
+sudo systemctl reload nginx
+
+STEP 5️⃣ Test in browser
+http://dev.maheshakki.shop
+http://qa.maheshakki.shop
+http://maheshakki.shop
+
+
+Each should open different environment 🎉
+
+🔒 Want HTTPS? (Recommended)
+
+Now you have 2 choices:
+
+Option A️⃣ Single Wildcard SSL (BEST)
+*.maheshakki.shop
+
+Option B️⃣ Multiple domains in one cert
+maheshakki.shop
+dev.maheshakki.shop
+qa.maheshakki.shop
+
+
+I can give you exact Certbot commands for either.
+
+🧠 Remember this forever
+Thing	Role
+DNS	Maps name → IP
+Nginx	Routes subdomains → ports
+App	Runs on port
+SSL	Secures domain
+
+
+
+
+
+
