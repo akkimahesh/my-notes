@@ -1,0 +1,97 @@
+Good question 👍 You want your **Windows 11 laptop to show reminders automatically when you start it**, right? There are several easy ways to do this.
+
+---
+
+## ✅ Method 1: Use **Sticky Notes** (Simple Way)
+
+1. Press **Windows + S**
+2. Type **Sticky Notes**
+3. Open **Sticky Notes**
+4. Write what you need to remember
+5. Keep it open and don’t close it
+
+👉 Next time you start your laptop, Sticky Notes will automatically open and show your notes.
+
+If it doesn’t:
+
+* Press **Ctrl + Shift + Esc**
+* Go to **Startup**
+* Enable **Sticky Notes**
+
+---
+
+## ✅ Method 2: Open Notepad Automatically at Startup
+
+If you want a text file to open every time:
+
+1. Press **Windows + R**
+
+2. Type:
+
+   ```
+   shell:startup
+   ```
+
+3. Press Enter
+   (Startup folder will open)
+
+4. Create a text file (example: `MyTasks.txt`)
+
+5. Right-click → Create shortcut → Keep shortcut in Startup folder
+
+Now every time you start your laptop, it will open automatically.
+
+---
+
+## ✅ Method 3: Use Microsoft To Do (Best for Reminders)
+
+You can install and use **Microsoft To Do**
+
+Steps:
+
+1. Open Microsoft Store
+2. Install Microsoft To Do
+3. Create daily reminder tasks
+4. Enable notifications
+
+It will remind you at a specific time every day 🔔
+
+---
+
+## ✅ Method 4: Show a Message Automatically (Advanced)
+
+You can create a small `.bat` file:
+
+1. Open Notepad
+
+2. Paste:
+
+   ```
+   msg * "Don't forget to check VPN and settings!"
+   ```
+
+3. Save as: `reminder.bat`
+
+4. Put it inside `shell:startup` folder
+
+Now every time you start your laptop, a message popup will appear.
+
+---
+
+### 🔥 Best Option for You?
+
+Since you’re into DevOps and system setup (based on your previous chats), I suggest:
+
+👉 Use **Microsoft To Do** for structured reminders
+OR
+👉 Use Startup folder method if you want something simple
+
+---
+
+If you want, tell me:
+
+* Do you want popup message?
+* Or checklist?
+* Or full-screen reminder?
+
+I’ll give you exact steps for your need 👍

@@ -1,0 +1,588 @@
+
+
+
+You said:
+deploy nodejs application on dev, qa, prod on same ec2 with pm2 installation and route through nginx add SSL using certbot
+
+ChatGPT said:
+Good 🔥 This is a very common real-world DevOps setup.
+
+You want:
+
+✅ Same EC2 instance
+
+✅ 3 environments → dev, qa, prod
+
+✅ Node.js app managed by PM2
+
+✅ Nginx reverse proxy
+
+✅ SSL using Certbot
+
+I’ll give you a clean production-grade setup step-by-step.
+
+🏗️ Architecture Overview
+Internet
+   ↓
+Nginx (80/443)
+   ↓
+PM2 Processes (Different Ports)
+   ↓
+Node.js Apps
+Each environment runs on a different port:
+
+Environment	Port
+DEV	3001
+QA	3002
+PROD	3003
+✅ STEP 1 — Install Required Software
+SSH into EC2:
+
+sudo apt update -y
+sudo apt install nginx -y
+sudo apt install certbot python3-certbot-nginx -y
+sudo apt install nodejs npm -y
+sudo npm install -g pm2
+Verify:
+
+nginx -v
+node -v
+pm2 -v
+✅ STEP 2 — Project Structure (Recommended)
+/var/www/
+    ├── app-dev
+    ├── app-qa
+    └── app-prod
+Create directories:
+
+sudo mkdir -p /var/www/app-dev
+sudo mkdir -p /var/www/app-qa
+sudo mkdir -p /var/www/app-prod
+Clone your repo into each folder.
+
+✅ STEP 3 — Configure Environment Ports
+In your Node app (example: server.js):
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+✅ STEP 4 — Start with PM2
+Go to each folder:
+
+DEV
+cd /var/www/app-dev
+npm install
+PORT=3001 pm2 start server.js --name app-dev
+QA
+cd /var/www/app-qa
+npm install
+PORT=3002 pm2 start server.js --name app-qa
+PROD
+cd /var/www/app-prod
+npm install
+PORT=3003 pm2 start server.js --name app-prod
+Save PM2:
+
+pm2 save
+pm2 startup
+✅ STEP 5 — Configure Nginx Reverse Proxy
+Create nginx config:
+
+sudo nano /etc/nginx/sites-available/app
+🔹 If using Subdomains (Recommended)
+Example:
+
+dev.yourdomain.com
+
+qa.yourdomain.com
+
+yourdomain.com (prod)
+
+Paste:
+
+server {
+    server_name dev.yourdomain.com;
+
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+    }
+}
+
+server {
+    server_name qa.yourdomain.com;
+
+    location / {
+        proxy_pass http://localhost:3002;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+    }
+}
+
+server {
+    server_name yourdomain.com;
+
+    location / {
+        proxy_pass http://localhost:3003;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+    }
+}
+Enable it:
+
+sudo ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+✅ STEP 6 — Configure SSL (Certbot)
+Make sure DNS points to EC2 public IP.
+
+Run:
+
+sudo certbot --nginx -d dev.yourdomain.com -d qa.yourdomain.com -d yourdomain.com
+Certbot will:
+
+Automatically configure SSL
+
+Redirect HTTP → HTTPS
+
+Test auto renewal:
+
+sudo certbot renew --dry-run
+🎯 Final Setup
+Now:
+
+URL	Environment
+https://dev.yourdomain.com	DEV
+https://qa.yourdomain.com	QA
+https://yourdomain.com	PROD
+🧠 Best Practice (Production Level Improvement)
+Instead of manually setting PORT, use PM2 ecosystem file:
+
+Create ecosystem.config.js:
+
+module.exports = {
+  apps: [
+    {
+      name: "app-dev",
+      script: "server.js",
+      cwd: "/var/www/app-dev",
+      env: { PORT: 3001 }
+    },
+    {
+      name: "app-qa",
+      script: "server.js",
+      cwd: "/var/www/app-qa",
+      env: { PORT: 3002 }
+    },
+    {
+      name: "app-prod",
+      script: "server.js",
+      cwd: "/var/www/app-prod",
+      env: { PORT: 3003 }
+    }
+  ]
+};
+Start:
+
+pm2 start ecosystem.config.js
+pm2 save
+⚠️ Important Production Warnings
+Running dev, qa, prod on same EC2:
+
+✔ Cheap
+❌ Not fully isolated
+❌ If EC2 crashes → all environments down
+
+For learning or small startup → OK
+For enterprise → separate EC2 or containers
+
+If you want, I can next explain:
+
+🔥 How to automate this with Jenkins pipeline
+
+🔥 How to auto deploy dev/qa/prod from different branches
+
+🔥 How to do blue-green deployment
+
+🔥 How to dockerize this properly
+
+Tell me which one you want 🚀
+
+
+You said:
+pm2 start ecosystem.config.js
+if i run this 3 applicaton created ..?
+
+ChatGPT said:
+Yes ✅ — if your ecosystem.config.js contains 3 apps, then:
+
+pm2 start ecosystem.config.js
+👉 PM2 will create and start all 3 applications.
+
+🔍 Example
+If your file looks like this:
+
+module.exports = {
+  apps: [
+    {
+      name: "app-dev",
+      script: "server.js",
+      cwd: "/var/www/app-dev",
+      env: { PORT: 3001 }
+    },
+    {
+      name: "app-qa",
+      script: "server.js",
+      cwd: "/var/www/app-qa",
+      env: { PORT: 3002 }
+    },
+    {
+      name: "app-prod",
+      script: "server.js",
+      cwd: "/var/www/app-prod",
+      env: { PORT: 3003 }
+    }
+  ]
+};
+Then running:
+
+pm2 start ecosystem.config.js
+Will result in:
+
+pm2 list
+Output like:
+
+┌─────┬───────────┬────────┬────────┬──────┐
+│ id  │ name      │ status │ cpu    │ mem  │
+├─────┼───────────┼────────┼────────┼──────┤
+│ 0   │ app-dev   │ online │ 0%     │ 50mb │
+│ 1   │ app-qa    │ online │ 0%     │ 50mb │
+│ 2   │ app-prod  │ online │ 0%     │ 60mb │
+└─────┴───────────┴────────┴────────┴──────┘
+So yes — 3 apps will be created and started 🚀
+
+⚠️ Important Things to Know
+1️⃣ If you run it again?
+If they already exist, PM2 may:
+
+Throw error
+
+Or restart them (depending on flags)
+
+Better way:
+
+pm2 restart ecosystem.config.js
+or
+
+pm2 reload ecosystem.config.js
+2️⃣ If you want only one app
+pm2 start ecosystem.config.js --only app-dev
+3️⃣ To delete all 3 apps
+pm2 delete all
+4️⃣ Save for auto-start after reboot
+pm2 save
+pm2 startup
+🎯 Best Practice (Production)
+Instead of pm2 start, use:
+
+pm2 start ecosystem.config.js --env production
+If you define different env blocks.
+
+If you want, I can now explain:
+
+Difference between restart and reload
+
+Zero-downtime reload
+
+Cluster mode in PM2
+
+Memory limit auto-restart feature
+
+Which one you want next? 🚀
+
+
+You said:
+then where i can cofigure this inside nodejs application or somewhere else
+
+ChatGPT said:
+Good question 👍 This is where many people get confused.
+
+Short answer:
+
+👉 Environment configuration should NOT be hardcoded inside your Node.js app.
+👉 It should be controlled from PM2 (ecosystem file) or .env files.
+
+✅ Correct Architecture
+🔹 Node.js App → Generic
+🔹 Environment Values → Controlled externally
+Your Node.js app should look like this:
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+Notice:
+❌ No 3001 / 3002 / 3003 hardcoded
+✅ Using process.env.PORT
+
+🎯 Where Should You Configure Environment?
+You have 3 clean options:
+
+🥇 OPTION 1 — Configure Inside ecosystem.config.js (Best for Your Setup)
+module.exports = {
+  apps: [
+    {
+      name: "app-dev",
+      script: "server.js",
+      cwd: "/var/www/app-dev",
+      env: {
+        PORT: 3001,
+        NODE_ENV: "development"
+      }
+    },
+    {
+      name: "app-qa",
+      script: "server.js",
+      cwd: "/var/www/app-qa",
+      env: {
+        PORT: 3002,
+        NODE_ENV: "qa"
+      }
+    },
+    {
+      name: "app-prod",
+      script: "server.js",
+      cwd: "/var/www/app-prod",
+      env: {
+        PORT: 3003,
+        NODE_ENV: "production"
+      }
+    }
+  ]
+};
+Then:
+
+pm2 start ecosystem.config.js
+✔ Clean
+✔ Centralized
+✔ Production-friendly
+
+🥈 OPTION 2 — Use .env File (Very Common in Real Projects)
+Inside each folder:
+
+/var/www/app-dev/.env
+PORT=3001
+NODE_ENV=development
+/var/www/app-qa/.env
+PORT=3002
+NODE_ENV=qa
+/var/www/app-prod/.env
+PORT=3003
+NODE_ENV=production
+Install dotenv:
+
+npm install dotenv
+In your server.js:
+
+require('dotenv').config();
+
+const port = process.env.PORT || 3000;
+✔ Cleaner separation
+✔ Easy for CI/CD
+✔ Very popular method
+
+🥉 OPTION 3 — Pass While Starting (Not Recommended for Production)
+PORT=3001 pm2 start server.js --name app-dev
+This works, but not clean for long-term.
+
+🚀 What I Recommend For You
+Since you're:
+
+Running 3 environments on same EC2
+
+Using PM2
+
+Using Nginx
+
+👉 Best choice = ecosystem.config.js + NODE_ENV + PORT
+
+Because:
+
+Central control
+
+Easy restart
+
+Easy CI/CD integration
+
+Professional setup
+
+🔥 Professional Level Tip
+Inside ecosystem file you can also configure:
+
+instances: "max",
+exec_mode: "cluster",
+max_memory_restart: "300M",
+Example (prod only):
+
+{
+  name: "app-prod",
+  script: "server.js",
+  cwd: "/var/www/app-prod",
+  instances: "max",
+  exec_mode: "cluster",
+  max_memory_restart: "500M",
+  env: {
+    PORT: 3003,
+    NODE_ENV: "production"
+  }
+}
+Now it's production-ready 🔥
+
+🧠 Final Clear Answer
+👉 Configure environment variables in:
+
+ecosystem.config.js (best for you)
+OR
+
+.env file (common industry method)
+
+👉 Keep Node.js app generic using process.env.
+
+If you want next, I can explain:
+
+How to connect different databases for dev/qa/prod
+
+How to auto deploy each environment from different Git branches
+
+How to secure .env files properly
+
+Tell me what you want 🚀
+
+
+You said:
+i understand this, but where i can keep this file inside nodejs applicaton folder or else outside?
+
+ChatGPT said:
+Very good question 👌 — this is real DevOps thinking.
+
+✅ Short Answer
+👉 Keep ecosystem.config.js OUTSIDE individual environment folders.
+👉 Place it in a central location (example: /var/www/).
+
+🎯 Best Practice for Your Setup (Same EC2, 3 Environments)
+Since you have:
+
+/var/www/
+    ├── app-dev
+    ├── app-qa
+    ├── app-prod
+✅ Recommended Structure:
+/var/www/
+    ├── app-dev/
+    ├── app-qa/
+    ├── app-prod/
+    └── ecosystem.config.js   👈 HERE
+🚀 Why Outside?
+Because:
+
+✔ It manages multiple applications
+✔ It is infrastructure-level config
+✔ It’s not part of a single app
+✔ Cleaner separation of concerns
+
+Think like this:
+
+Node app → application code
+
+ecosystem file → process manager config (infra)
+
+🔥 How You Run It
+From /var/www:
+
+pm2 start ecosystem.config.js
+PM2 will look inside each cwd:
+
+cwd: "/var/www/app-dev"
+🧠 When Should You Keep It Inside the App Folder?
+Only when:
+
+You have single app
+
+OR each environment is on separate server
+
+OR using CI/CD per environment
+
+Example:
+
+app/
+ ├── server.js
+ ├── package.json
+ └── ecosystem.config.js
+That is common in Docker or separate EC2 setups.
+
+🏆 Professional Recommendation (For You)
+Since you're running:
+
+Dev
+
+QA
+
+Prod
+
+Same EC2
+
+👉 Keep ecosystem file in /var/www/
+
+Clean.
+Professional.
+Maintainable.
+
+⚡ Bonus Tip (Very Important)
+Make sure permissions are correct:
+
+sudo chown -R ubuntu:ubuntu /var/www
+Otherwise PM2 may throw permission errors.
+
+If you want, next I can show:
+
+How to auto deploy dev/qa/prod using Jenkins branches
+
+OR how to structure this properly for enterprise level
+
+Your DevOps skills improving fast 🔥
+
+
+You said:
+please make it PDF
+
+ChatGPT said:
+Your PDF is ready ✅
+
+👉 Download here:
+Download the PDF
+
+If you want, I can also create a more detailed professional version including:
+
+Nginx configuration
+
+SSL (Certbot) setup
+
+CI/CD integration
+
+Architecture diagram
+
+Production best practices
+
+Just tell me 🚀 
+
+
+

@@ -1,0 +1,42 @@
+You can implement custom commands in Linux using aliases for shortcuts, shell functions for logic with arguments, or executable scripts added to your PATH for full standalone commands. These methods work best in shells like Bash, which is common on most distributions.
+
+Aliases
+Aliases create simple shortcuts for long commands by mapping a short name to a string.
+
+Run alias ll='ls -la' to list files with details using ll.
+
+Make it permanent by adding the line to ~/.bashrc (for Bash), then run source ~/.bashrc.
+
+View all aliases with alias.
+​
+
+Aliases are ideal for non-interactive substitutions but can't handle complex logic or arguments well.
+
+Shell Functions
+Functions allow reusable code blocks with parameters, defined directly in your shell config.
+
+Define with myfunc() { echo "Args: $@"; }, then call myfunc arg1 arg2.
+
+Add to ~/.bashrc for persistence, and source the file.
+​
+
+They support variables, loops, and conditionals unlike aliases.
+
+Bash checks functions before builtins or PATH executables.
+​
+
+Executable Scripts
+Create standalone scripts that act like system commands by making them executable and adding to PATH.
+
+Steps
+Create a file, e.g., nano ~/bin/mycmd, add shebang #!/bin/bash and code like echo "Custom command".
+
+Make executable: chmod +x ~/bin/mycmd.
+
+Add directory to PATH: echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc.
+
+Run mycmd from anywhere.
+​
+
+This method is best for complex, shareable commands as it supports full scripting.
+
