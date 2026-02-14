@@ -6,3 +6,18 @@ advantages
 2. Availability---> amazon s3 stores data in 3 different availability zones. if one zone got effect automatically restores the data from another zone datacentres.
 3. Internet---> access it anywhere.
 4. Latency---> amazon maintain SSD type disks. Data transfer is very fast. 
+
+* Bucket name should be unique in the global. like gmail email.
+* situation: when someone wants files from S3 it is not good to provide aws credentials to them. So, here we public url for that files then share end users they can easily access.
+* aws generate unique domain name for every S3 bucket. with similar to bucket name. for accessing objects publicly.
+
+why bucket name should be unique?
+Because amazon creates the subdomain of our bucket. domain name should be like <bucket_name>.*.amazon.com
+
+* if you give public access to particular object in S3 make sure bucket will be in public. then only object enabled as public access.
+
+To give bucket as public---> go to permissions tab.
+To give objects as public ---> go object actions---> make public
+
+How to make static web Hosting?
+Here we need to enable static web hosting on particular bucket. and give the root file like index.html. so here information retrieve from that file. ( go to properties tab and enable it).
