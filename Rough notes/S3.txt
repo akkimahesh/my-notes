@@ -1,0 +1,8 @@
+S3--simple storage service
+--------------------------
+advantages
+----------
+1. scalability---> we can store unlimited data in S3 service. and object size should upto 5TB.
+2. Availability---> amazon s3 stores data in 3 different availability zones. if one zone got effect automatically restores the data from another                        zone datacentres.
+3. Internet---> access it anywhere.
+4. Latency---> amazon maintain SSD type disks. Data transfer is very fast. 

@@ -1,0 +1,33 @@
+Docker
+------
+application is working in QA but not working in Prod why?
+A) main cause here is changes the configuration in QA and Prod. in QA you we use one type of OS and other production we use another type or another version of OS. this is main cause here. So, when we use Docker images we overcome this issue. because image contains same OS in QA as well as PROD. 
+
+Advantages
+----------
+in Autoscaling it takes the time to create another VM. but coming to container it takes less time.
+
+docker run nginx VS docker -d run nginx
+---------------------------------------
+1. when you run first command container will run foreground mode. So, when click CLTR+C container Stopped.
+2. when you run second command container will run background mode. So, no need to CLTR+C.
+ :> remember pm2 for nodejs. same like this.
+
+docker -d -p 8080:80 nginx
+--------------------------
+1. here 8080 is the host port number. it means VM port number. and 80 means container port number.
+2. when hit <ip_address>:8080 there request come to VM first and VM redirect to container.
+
+To check the container OS
+--------------------------
+cat /etc/*release
+
+docker exec -it <container_name> bash ---> To login into existing container.
+
+docker inspect <container_id> or <container_name> ----> it prints information about the conatainer in that we able to see container ip address and many more.
+
+Declarative means--> what ever you write you will get it.
+
+docker build -t <url>/<username>/<imagename:latest>
+
+docker tag from:v1 joindevops/from:v1--> rename the image.

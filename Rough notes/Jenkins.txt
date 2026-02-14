@@ -1,0 +1,88 @@
+input block ---> if all configuratons is nice then ask for permission to procced the configuration. 
+Jenkins connect normal user not root user
+options
+post
+when condition
+pipeline utility--> this plugin is for read the json files through Jenkins.
+code automatically clone when give pipeline from SCM
+node_modules---> after run npm install this directory will be created. it download all required packages and store it. to run server.js node_module is mandatory.
+
+schema means---> we load products to DB. 
+  if I'm amazon seller so I have consoe to add the products. same here we provide products through file.
+
+nexus ----java mandatory
+
+TO run terraform scripts on agent server
+-----------------------------------------
+1. must installed terraform on agent server
+2. configure aws credentials. 
+
+zip -q -r catalogue.zip ./* -x ".git" -x ".git" -x "*.zip"
+------------------------------------------------------
+-q --> to silent zip command log. it consumes memory so we use it. 
+catalogue.zip is your zip file name how you want. 
+./* --> include all files from current directory.
+-x ---> include unwanted files.
+-x ".zip" --> if we run same command second time there will another zip file created. so for safety not included that second zip file.
+
+post{
+  deleteDir() --> to delete directory in workspace.
+}
+class-3
+-------
+nexus
+-----
+1.0.0-SNAPSHOT for DEV
+1.0.0-release for prod
+
+Jenkins to Nexus
+1. plugin name nexus artifact uploader.
+2. pipeline example Jenkins documentation for nexus.
+
+STORE NEXUS CREDENTIALS
+-----------------------
+add credentials secton in Jenkins use username and password
+username : admin
+password: admin@123
+ID AND description ur choice
+
+provision meaning
+-----------------
+install required softares and packages, apllications.
+
+catalogue from Jenkins
+----------------------
+create a catalogue-deploy dir then add Jenkins file and created terraform dir add terraform scripts releated to catalogue.
+
+Jenkins is a series of interrelated events. so parent job is completed then it calls the child job. like below,
+stage('Deploy') {
+   steps {
+       script {
+            def params: [
+                string(name: 'version', value: "${  }"),
+                string(name: 'environment', value: "dev")  #Here values replace in child job.
+            ]
+            build job: "<child-job-name>", wait: true   #this block tells that after completed the parent job it call the child job  for execution.
+       }
+   }
+} 
+
+class-4
+-------
+SonarQube setup. ---java must
+sonarscanner ---> scan the code and give the data to SonarQube.
+  To connect this vi edit sonar-scanner.properties in agent. 
+   1.add SonarQube ip address 
+   2. add extra line sonar.login=<token>
+multi branch pipeline
+developer is owner of catalogue repo. so devops engineer not to disturb developer in wise varsa.
+Jenkins shared libraries.
+
+class -5
+---------
+parallel stages in Jenkins pipeline.
+parallel {
+               #inside stage{} block to run jobs parallel.
+}
+
+.groovy files is like varables block in terraform and variable.yaml file in ansible. here Jenkins take values from .groovy extension files. this files writes in superset of java syntax.
