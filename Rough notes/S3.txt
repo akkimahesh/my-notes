@@ -21,3 +21,23 @@ To give objects as public ---> go object actions---> make public
 
 How to make static web Hosting?
 Here we need to enable static web hosting on particular bucket. and give the root file like index.html. so here information retrieve from that file. ( go to properties tab and enable it).
+
+AWS have 200+ services but it is not available in all regions. 
+China Data centres is only available for china people. 
+Every regions must have >=3 AZs
+
+AP-south-1---> asia pacific.
+Because of Earthquakes aws maintain 100KM distance each AZs.
+
+S3 storage Classes
+------------------
+* S3 by default storing >=3 AZs.
+* So, by using storage classes we can store as per our requirement.
+7 storage classes
+-----------------
+1. standard
+2. frequently accessed
+3. infrequently accessed
+4. archival (compressed the files and make it as a Zip)
+5. intelligent tier (combination of frequently accessed + infrequently accessed) based on files accessing amazon can change it.
+6. 
