@@ -99,9 +99,12 @@ docker build -t arg:v1 --build-arg COURSE=DevOps --build-arg Trainer=Mahesh
 
 * ARG can also be used before FROM instruction.
 ARG version
-FROM almaalinux:${version}
+FROM almaalinux:${version} #FROM almaalinux:${version:-8} if users forgot to give value. it takes default value.
 
-Note:- if you give ARG instruction before FROM, so it can not br work after FROM instruction.
+Note:- if you give ARG instruction before FROM, so it can not be work after FROM instruction.
+
+ONBUILD instruction tells that if you want to use this image! you need something. It doesn't run while build time.
+ONBUILD ADD index.html /usr/share/nginx/html/  #here without index.html file at user he doesn't use this image. 
 
 
 
