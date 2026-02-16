@@ -31,3 +31,108 @@ Declarative means--> what ever you write you will get it.
 docker build -t <url>/<username>/<imagename:latest>
 
 docker tag from:v1 joindevops/from:v1--> rename the image.
+
+RUN vs CMD
+----------
+RUN instruction runs while image building. Here CMD instruction will not work.
+CMD instruction runs while container creation. it keeps container runs infinite times.
+
+LABEL instruction is used identify the particular images by filtering.
+command: docker images --filter label=Name=Mahesh
+
+EXPOSE instruction does not perform any operation. It is only for information purpose. It is showing which port number is exposing on the image.
+
+ENV instruction is used give environment variables inside the container.
+
+COPY vs ADD
+-----------
+COPY instruction is used to copy file/directories from source destination.
+ADD instruction is used to copy data from url to destination. if you copy .tar files here it automatically untar in the destination.
+
+CMD vs ENTRYPOINT
+-----------------
+* These two instructions runs while container creation.
+* CMD instruction can be overridden by another command at run time. (like docker run <image_name>:v1 ping yahoo.com)
+* ENTRYPOINT instruction can not be overridden. if you do so, it can be append to ENTRYPOINT command. (like this ping yahoo.com ping google.com)
+* we can use CMD for arguments and ENTRYPOINT for command.
+  example
+----------
+CMD ["googel.com"] #here CMD is providing options for below ping command.
+ENTRYPOINT["ping"]
+
+Security
+--------
+if anyone login docker container as a root user they can access host storage.
+so make sure to keep isolated docker containers. from one container to another container.
+
+So to restricting container from root user by using USER instruction.
+
+write this USER instruction before CMD instruction.
+
+WORKDIR instruction is used changem the path where we run the commands (like cd /tmp) directory related commands not work RUN instructions.
+RUN cd /tmp (not work)
+WORKDIR /tmp (work)
+
+ARG
+----
+ARG instruction is like variable at only build time. whatever you assign through command line arguments the value can inside ARG variable.
+ARG username
+RUN adduser $username
+USER $username
+
+how to pass value?
+docker build -t arg:v1 --build-arg username=Mahesh 
+
+ARG vs ENV
+----------
+ARG is for build time.
+ENV can store values in the container. 
+
+how you can give ARG values to ENV?
+ARG COURSE
+ARG TRAINER
+ENV COURSE=${COURSE}
+ENV TRAINER=${TRAINER}
+
+how to pass values?
+docker build -t arg:v1 --build-arg COURSE=DevOps --build-arg Trainer=Mahesh 
+
+* ARG can also be used before FROM instruction.
+ARG version
+FROM almaalinux:${version}
+
+Note:- if you give ARG instruction before FROM, so it can not br work after FROM instruction.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
