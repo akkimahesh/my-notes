@@ -1,0 +1,22 @@
+ note: your Domain name and S3 bucket name should be same.
+
+step-1: create s3 bucket with same name of your domain.
+        upload static website data into that.
+
+step-2: create ACM certificates for domain.
+        give acm name as maheshakki.shop
+
+step-3: 1. create CDN 
+        2. enter origin address
+        3. allow access should be CDN 
+        4. redirect HTTPS
+        5. cache policy : cacheing optimized
+        6. domain CNAME maheshakki.shop
+        7. take ssl certificate that ypu created
+        8. default root object: index.html { don't give /index.html }
+        9. copy policy in CDN
+        10.paste that policy in bucket policies in S3 in permissions tab.
+
+step-4: map CDN to route53
+        create record and alias select cloudfront URL
+ 
