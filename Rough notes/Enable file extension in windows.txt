@@ -1,0 +1,1 @@
+Go to control panel and then select file explore options unselect the hidden extensions option.

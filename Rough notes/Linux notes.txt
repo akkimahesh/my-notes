@@ -1,0 +1,105 @@
+0.0.0.0/0 ---> represented to internet. anyone can use.
+
+Linux is a kernel not OS. it does't have UI, Shell
+
+kernel is responsible for connecting to hardware.
+
+kernel + shell + UI = OS 
+
+servers doesn't have UI. Only kernel and shell.
+
+ssh -i  #-i means identity file private key
+
+absolute path / relative path.
+
+$ --> normal user
+# --> root user
+/ --> home directory
+
+uname --> kernel name {example Linux}
+
+--help vs man 
+--------------
+1. --help prints available options. 
+2. man command prints options with description.
+
+ls -lr --> reverse format
+ls -lt --> latest files on top
+ls -ltr --> old files are on top
+
+class-2
+
+CRUD
+----
+create --> create facebook account
+read --> login facebook account
+update --> post something
+delete --> delete the post.
+
+
+rmdir --> only deletes empty directory
+rm -r --> delete forcefully
+
+cp --> copy the files as well as change the file names as well
+grep <word_to_find> <which_file>
+
+Linux is case sensitive.
+
+we have two files,
+DevOps
+DEVOPS
+
+grep DevOps ---> it finds the word.
+grep Devops ---> not find the word
+grep -i Devops #we are telling find that word insensitive mode 
+
+wget vs curl
+------------
+wget download the file.
+curl display the content in the terminal. 
+
+cut vs awk :- important
+----------
+delimitor --> this means we separate words using symbols below.
+:
+/
+https://github.com/akkimahesh/terraform-iam-lambda-dynamodb
+
+cut -d : f1 --> print this one "https"
+cut -d / f3 --> print this one "github.com"
+
+question
+--------
+cut command is to print the fragments by using delimitor. delimitor is our wish based on the input given.
+
+awk 
+---
+https://github.com/akkimahesh/terraform-iam-lambda-dynamodb
+awk -F / '{print $1F} --> prints first fragment "https"
+awk -F / '{print $NF} --> prints last fragment "terraform-iam-lambda-dynamodb"
+
+used for rows and column based Data.
+
+vim editor
+----------
+:set nu ---> display number for each line.
+:set nonu
+
+:/ search from top
+:? search from buttom
+:/<word> search the word {like :/bin}
+:noh not highlate
+esc mode in vim editor
+----------------------
+shift+g --> go to buttom 
+shift+gg --> go to buttom
+u --> undo
+dd --> cut the lines
+
+replace the word
+----------------
+:s/<wordtofind>/<wordtoreplace> ---> change only where cursor have
+:%s/<wordtofind>/<wordtoreplace>/g ---> change the all words (global)
+:2s/<wordtofind>/<wordtoreplace> ---> change the word particular line
+
+
