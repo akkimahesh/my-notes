@@ -1,5 +1,5 @@
 
-
+Note: /var/www: ---> this path refers to applicaton. make sure to run application from this directory.
 
 You said:
 deploy nodejs application on dev, qa, prod on same ec2 with pm2 installation and route through nginx add SSL using certbot
@@ -583,6 +583,23 @@ Architecture diagram
 Production best practices
 
 Just tell me 🚀 
+
+
+git pull error comes like below
+-------------------------------
+
+error: Your local changes to the following files would be overwritten:
+vendor/_reset_log.txt
+Please commit your changes or stash them before you switch branches.
+
+use below commands:
+git stash 
+git pull
+
+then, 
+pm2 list 
+pm2 restart <application_name> ---> automatically application restart with changes
+
 
 
 

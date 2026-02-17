@@ -1,0 +1,248 @@
+Perfect 👌 I’ll rewrite your rough steps into a clean, professional, human-readable guide.
+
+---
+
+# 🚀 Deploying Lambda + DynamoDB + API Gateway + Route 53 (Console Method)
+
+Below are the proper step-by-step instructions to deploy a public REST API integrated with Lambda and DynamoDB, and map it to a custom domain using Route 53.
+
+---
+
+## 🔹 Step 1: Create IAM Role for Lambda
+
+1. Go to **IAM → Roles**
+2. Click **Create Role**
+3. Choose:
+
+   * Trusted entity: **AWS Service**
+   * Use case: **Lambda**
+4. Attach the following policies:
+
+   * ✅ **AWSLambdaBasicExecutionRole** (for CloudWatch logs)
+   * ✅ **AmazonDynamoDBFullAccess** (for DynamoDB access)
+5. Give the role a name (example: `lambda-dynamodb-role`)
+6. Click **Create role**
+
+This role allows Lambda to:
+
+* Write logs to CloudWatch
+* Read/Write data in DynamoDB
+
+---
+
+## 🔹 Step 2: Create Lambda Function
+
+1. Go to **Lambda → Create Function**
+2. Choose:
+
+   * Author from scratch
+3. Enter:
+
+   * Function name (example: `contact-function`)
+   * Runtime: Python 3.x
+4. Under **Permissions**, choose:
+
+   * Use existing role
+   * Select the IAM role created earlier (`lambda-dynamodb-role`)
+5. Click **Create function**
+
+### Upload ZIP File
+
+1. In the Lambda function page:
+
+   * Go to **Code**
+   * Click **Upload from → .zip file**
+   * Upload your prepared zip file
+2. Click **Deploy**
+
+Make sure:
+
+* Handler name matches your Python file
+  Example:
+
+  ```
+  lambda_function.lambda_handler
+  ```
+
+---
+
+## 🔹 Step 3: Create DynamoDB Table
+
+1. Go to **DynamoDB → Create table**
+2. Table name:
+
+   * Use the same name referenced inside your Python code
+3. Partition key:
+
+   * Example: `email`
+   * Type: String
+4. Billing mode:
+
+   * Choose **On-demand (PAY_PER_REQUEST)**
+5. Click **Create table**
+
+Now Lambda can interact with this table.
+
+---
+
+## 🔹 Step 4: Create API Gateway (Public REST API)
+
+1. Go to **API Gateway**
+2. Click **Create API**
+3. Choose:
+
+   * **REST API**
+   * Select **Public**
+4. Click **Build**
+
+---
+
+### Create Resource
+
+1. Click **Resources**
+2. Click **Create Resource**
+3. Resource name:
+
+   ```
+   contact
+   ```
+
+---
+
+### Create Methods
+
+1. Select `/contact`
+2. Click **Create Method**
+3. Add:
+
+   * GET
+   * POST
+
+For both methods:
+
+* Integration type → **Lambda Function**
+* Enable **Lambda Proxy Integration**
+* Select your Lambda function
+* Save
+
+---
+
+### Deploy API
+
+1. Click **Deploy API**
+2. Create new stage:
+
+   ```
+   prod
+   ```
+3. Click **Deploy**
+
+You will now get an Invoke URL like:
+
+```
+https://abc123.execute-api.region.amazonaws.com/prod/contact
+```
+
+---
+
+## 🔹 Step 5: Map API to Route 53 Custom Domain
+
+---
+
+### 1️⃣ Create Custom Domain in API Gateway
+
+1. Go to **API Gateway → Custom domain names**
+2. Click **Create**
+3. Enter domain:
+
+   ```
+   api.yourdomain.com
+   ```
+4. Select endpoint type:
+
+   * Regional
+5. Select an existing ACM certificate
+   (If not available, create one in ACM first using DNS validation)
+6. Click **Create**
+
+---
+
+### 2️⃣ Create API Mapping
+
+1. Open the created custom domain
+2. Click **API mappings**
+3. Add mapping:
+
+   * Select your API
+   * Stage → `prod`
+   * Leave path empty (for root mapping)
+4. Save
+
+---
+
+### 3️⃣ Create Route 53 Record
+
+1. Go to **Route 53 → Hosted Zones**
+2. Open your domain
+3. Click **Create Record**
+4. Configure:
+
+   * Record name:
+
+     ```
+     api
+     ```
+   * Record type:
+
+     ```
+     A
+     ```
+   * Enable:
+     ✅ Alias
+   * Alias target:
+     Select your API Gateway custom domain
+5. Click **Create Record**
+
+⚠ Important:
+The API Gateway custom domain name and Route 53 record name must match.
+
+Example:
+
+```
+API Gateway domain: api.yourdomain.com
+Route53 record name: api
+```
+
+---
+
+# ✅ Final Result
+
+Your API will now be accessible using:
+
+```
+https://api.yourdomain.com/contact
+```
+
+Instead of the default execute-api URL.
+
+---
+
+# 🔥 Production Checklist
+
+✔ IAM role attached correctly
+✔ Lambda handler configured properly
+✔ DynamoDB table name matches Python code
+✔ API deployed to correct stage
+✔ ACM certificate status = Issued
+✔ Route 53 alias record created
+
+---
+
+If you want, I can also format this as:
+
+* 📄 Interview-ready explanation
+* 📘 Documentation format
+* 📑 PDF-style deployment guide
+* 🔥 DevOps resume project explanation
+
+Tell me 😎
