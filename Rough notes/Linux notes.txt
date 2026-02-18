@@ -89,6 +89,7 @@ vim editor
 :? search from buttom
 :/<word> search the word {like :/bin}
 :noh not highlate
+
 esc mode in vim editor
 ----------------------
 shift+g --> go to buttom 
@@ -102,4 +103,19 @@ replace the word
 :%s/<wordtofind>/<wordtoreplace>/g ---> change the all words (global)
 :2s/<wordtofind>/<wordtoreplace> ---> change the word particular line
 
+user management
+---------------
+getent group --> print group entries
+
+To login with created user you need to do some configuration.
+-------------------------------------------------------------
+vim /etc/ssh/sshd_config
+sshd -t # if any worng configuration it shows.
+
+id Mahesh
+it prints the user id group id that Mahesh is belongs to..
+
+groupadd devops #to create the group.
+
+usermod -g <groupname> <username>
 

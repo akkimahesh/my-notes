@@ -1,0 +1,6 @@
+To give Billing permissions to IAM user.
+---------------------------------------
+1. Go to account settings enable "IAM user and Role access"
+2. set alias in user account not root account.
+3. By default we can add upto 20 policies for users.
+4. we default managed and job function policies.

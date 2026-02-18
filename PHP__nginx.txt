@@ -1,0 +1,85 @@
+(Nginx + PHP-FPM on VM)
+
+Architecture
+------------
+User → Nginx → PHP-FPM → MySQL
+
+install nginx
+-------------
+sudo apt update
+sudo apt install nginx -y
+
+install PHP and FPM (process manager) like npm
+----------------------------------------------
+sudo apt install php-fpm php-mysql -y
+
+Configure Nginx for PHP
+----------------------
+sudo vi /etc/nginx/sites-available/yourapp
+
+ADD
+----
+server {
+    listen 80;
+    server_name yourdomain.com;
+
+    root /var/www/yourapp;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+Enable
+------
+#because sites-available/ this directory have all config files. so we need only active files. without effect config files.
+
+sudo ln -s /etc/nginx/sites-available/yourapp /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+
+Upload project
+--------------
+sudo mkdir -p /var/www/yourapp
+sudo chown -R www-data:www-data /var/www/yourapp
+
+Restart Services
+----------------
+sudo systemctl restart php8.1-fpm
+sudo systemctl restart nginx
+
+Deployment completed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
