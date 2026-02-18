@@ -4,3 +4,13 @@ To give Billing permissions to IAM user.
 2. set alias in user account not root account.
 3. By default we can add upto 20 policies for users.
 4. we default managed and job function policies.
+
+advantage of custom policy
+--------------------------
+Besically we have upto 20 policies to attach right. so using custom policies we can make multiple permissions in a singal policy.
+
+policy version 
+--------------
+It is showing modification versions upto 5. 
+
+*Deny always have highest priority. if you allow s3 3 times, one time Deny then deny will going to effect. 
