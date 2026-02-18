@@ -1,0 +1,1 @@
+scp -i "C:/Users/mahes/Downloads/akki1.pem" "C:/Users/mahes/Desktop/online-examination-systen-in-php-master.zip" ubuntu@ec2-54-91-209-47.compute-1.amazonaws.com:/home/ubuntu/

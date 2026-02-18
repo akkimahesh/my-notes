@@ -23,7 +23,7 @@ server {
     listen 80;
     server_name yourdomain.com;
 
-    root /var/www/yourapp;
+    root /var/www/yourapp; #change this according to your application path.
     index index.php index.html;
 
     location / {
@@ -50,15 +50,22 @@ sudo systemctl restart nginx
 
 Upload project
 --------------
+clone first
 sudo mkdir -p /var/www/yourapp
 sudo chown -R www-data:www-data /var/www/yourapp
 
 Restart Services
 ----------------
-sudo systemctl restart php8.1-fpm
+sudo systemctl restart php8.1-fpm #check fpm version before run this. php -v
 sudo systemctl restart nginx
 
 Deployment completed.
+
+note:
+fastcgi_pass unix:/var/run/php/php8.1-fpm.sock; 
+#this line equals to /var/run/php/php8.1-fpm.sock
+
+if path different version and nginx config file different version then php-fpm is not redirect to path. 
 
 
 
