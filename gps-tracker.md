@@ -325,6 +325,22 @@ php artisan route:clear
 php artisan view:clear
 
 
+Step 1: Install Node.js 20 (Recommended)
+Remove old Node (optional but clean)
+--------------------------------------
+sudo apt remove nodejs -y
+
+Install Node 20 via NodeSource (BEST METHOD)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install nodejs -y
+
+Step 2: Verify Version
+----------------------
+node -v
+npm -v
+
+
+✅ Must show Node ≥ 20.
 
 
 

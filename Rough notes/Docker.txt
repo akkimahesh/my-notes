@@ -106,12 +106,57 @@ Note:- if you give ARG instruction before FROM, so it can not be work after FROM
 ONBUILD instruction tells that if you want to use this image! you need something. It doesn't run while build time.
 ONBUILD ADD index.html /usr/share/nginx/html/  #here without index.html file at user he doesn't use this image. 
 
+docker run -d --name mongodb mongodb:v1 #to run the container (create+start)
+
+docker0 --> docker creates own network {host network and docker gateway is not same}
+
+                -----> Docker container
+               |        172.168.17.3
+               |
+Docker host -->|     
+172.168.17.1   |
+ docker GW     |         
+                ------> Docker container
+                         172.168.17.2
+
+* Docker containers by default not communicate each other by their names. because,
+👉 Containers on the default bridge network:
+❌ Do NOT get automatic DNS name resolution
+❌ Cannot talk using container names
+✅ Can talk using IP addresses only (unless you manually link)
+
+👉 Containers on a user-defined bridge network:
+✅ Get automatic DNS
+✅ Can talk using container names
+✅ Preferred modern approach
+
+docker network ls #list the available networks
+docker network create roboshop #create our own bridge network
+ifconfig #show network information.
+docker run -d --name mongodb --network=roboshop mongodb:1 #we are telling our container to use roboshop network.
 
 
+High level Architecture [ embedded DNS server ]
+------------------------
+Container (app2)
+     │
+     │  DNS query: "who is app1?"
+     ▼
+127.0.0.11 (Docker embedded DNS)
+     │
+     │ looks into Docker network database
+     ▼
+Returns: 172.18.0.2
+     │
+     ▼
+app2 connects to app1
 
-
-
-
+if some tell write the Dockerfile
+---------------------------------
+!. first understand what programming language they write.
+2. install necessary software.
+3. add the required files.
+4. start the image building.
 
 
 
