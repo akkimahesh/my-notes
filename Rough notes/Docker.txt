@@ -158,6 +158,13 @@ if some tell write the Dockerfile
 3. add the required files.
 4. start the image building.
 
+*containers are nothing but our services
+
+docker compose
+--------------
+* without starting containers one by one we use docker compose to start at singal click.
+* docker compose can create network, volumes and attach it to the containers.
+
 
 
 

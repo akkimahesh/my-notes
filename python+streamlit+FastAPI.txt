@@ -1,0 +1,347 @@
+Understood. Below is a **clean, production-style redeployment guide from scratch** on **Amazon EC2 with Amazon Linux 2**, specifically for your stack:
+
+* Streamlit (UI)
+* FastAPI (backend)
+* Nginx (reverse proxy)
+* systemd (auto-start)
+
+Follow in order — do not skip.
+
+---
+
+# 🚀 Phase 0 — Architecture (what we are building)
+
+```
+Internet
+   ↓
+Nginx :80
+   ↓
+Streamlit :8501  (UI)
+   ↓
+FastAPI :8000    (ML API)
+```
+
+Users will open only:
+
+```
+http://EC2-IP
+```
+
+---
+
+# 🚀 Phase 1 — Launch & connect EC2
+
+## Step 1.1 — Launch instance
+
+Choose:
+
+* AMI: Amazon Linux 2
+* Instance: t2.micro (or higher)
+* Security Group inbound:
+
+| Port | Purpose             |
+| ---- | ------------------- |
+| 22   | SSH                 |
+| 80   | Web                 |
+| 8501 | (temporary testing) |
+| 8000 | (temporary testing) |
+
+---
+
+## Step 1.2 — SSH into server
+
+```bash
+ssh -i your-key.pem ec2-user@YOUR-IP
+```
+
+---
+
+# 🚀 Phase 2 — Prepare server
+
+## Step 2.1 — Update system
+
+```bash
+sudo yum update -y
+```
+
+**Why:** installs latest security patches.
+
+---
+
+## Step 2.2 — Install required packages
+
+```bash
+sudo yum install python3 git nginx -y
+```
+
+Check:
+
+```bash
+python3 --version
+nginx -v
+```
+
+---
+
+# 🚀 Phase 3 — Deploy your project
+
+## Step 3.1 — Go to working directory
+
+```bash
+cd /opt
+```
+
+**Why:** `/opt` is standard for applications.
+
+---
+
+## Step 3.2 — Clone your repo
+
+```bash
+sudo git clone https://github.com/YOUR-USERNAME/YOUR-REPO.git
+```
+
+Example for you (replace if different).
+
+---
+
+## Step 3.3 — Fix permissions
+
+```bash
+sudo chown -R ec2-user:ec2-user YOUR-REPO
+cd YOUR-REPO
+```
+
+**Why:** avoid permission problems.
+
+---
+
+# 🚀 Phase 4 — Python environment
+
+## Step 4.1 — Create virtual environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**Why:** isolate dependencies.
+
+---
+
+## Step 4.2 — Upgrade pip
+
+```bash
+pip install --upgrade pip
+```
+
+---
+
+## Step 4.3 — Install requirements
+
+```bash
+pip install -r requirements.txt
+pip install streamlit uvicorn fastapi
+```
+
+---
+
+# 🚀 Phase 5 — Test apps manually (IMPORTANT)
+
+## Step 5.1 — Test FastAPI
+
+Go to src:
+
+```bash
+cd src
+uvicorn fast_api:app --host 0.0.0.0 --port 8000
+```
+
+Test in browser:
+
+```
+http://EC2-IP:8000/docs
+```
+
+Stop with Ctrl+C.
+
+---
+
+## Step 5.2 — Test Streamlit
+
+```bash
+streamlit run streamlit-app.py --server.port 8501 --server.address 0.0.0.0
+```
+
+Test:
+
+```
+http://EC2-IP:8501
+```
+
+Stop.
+
+✅ If both work → proceed.
+
+---
+
+# 🚀 Phase 6 — Create systemd services (PRODUCTION)
+
+This makes apps auto-start.
+
+---
+
+## Step 6.1 — Streamlit service
+
+```bash
+sudo nano /etc/systemd/system/streamlit.service
+```
+
+Paste (EDIT PATHS if needed):
+
+```ini
+[Unit]
+Description=Streamlit App
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/opt/YOUR-REPO/src
+ExecStart=/opt/YOUR-REPO/venv/bin/streamlit run streamlit-app.py --server.port 8501 --server.address 0.0.0.0
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Save.
+
+---
+
+## Step 6.2 — FastAPI service
+
+```bash
+sudo nano /etc/systemd/system/fastapi.service
+```
+
+Paste:
+
+```ini
+[Unit]
+Description=FastAPI App
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/opt/YOUR-REPO/src
+ExecStart=/opt/YOUR-REPO/venv/bin/uvicorn fast_api:app --host 0.0.0.0 --port 8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+---
+
+## Step 6.3 — Enable services
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable streamlit
+sudo systemctl enable fastapi
+sudo systemctl start streamlit
+sudo systemctl start fastapi
+```
+
+Check:
+
+```bash
+sudo systemctl status streamlit
+sudo systemctl status fastapi
+```
+
+---
+
+# 🚀 Phase 7 — Configure Nginx
+
+## Step 7.1 — Edit nginx config
+
+```bash
+sudo nano /etc/nginx/nginx.conf
+```
+
+Inside the `server {}` block, use:
+
+```nginx
+location / {
+    proxy_pass http://127.0.0.1:8501/;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_read_timeout 86400;
+}
+```
+
+---
+
+## Step 7.2 — Start nginx
+
+```bash
+sudo systemctl enable nginx
+sudo systemctl restart nginx
+sudo nginx -t
+```
+
+---
+
+# 🚀 Phase 8 — Final test
+
+Open:
+
+```
+http://EC2-IP
+```
+
+✅ Streamlit UI loads
+✅ Predictions work
+✅ No ports visible
+✅ Auto-start enabled
+
+---
+
+# 🔥 Phase 9 — Production cleanup (recommended)
+
+After nginx works, you can **remove public access** to:
+
+* port 8501
+* port 8000
+
+Keep only:
+
+* 22
+* 80
+
+(in Security Group)
+
+This improves security.
+
+---
+
+# 🎯 You are now production-ready
+
+Your deployment is now:
+
+* persistent
+* auto-restarting
+* nginx fronted
+* scalable ready
+
+---
+
+If you want next-level DevOps skills, say one:
+
+* **"add domain + https"**
+* **"dockerize this"** (very valuable for career)
+* **"autoscaling architecture"**
