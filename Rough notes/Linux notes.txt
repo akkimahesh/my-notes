@@ -119,3 +119,11 @@ groupadd devops #to create the group.
 
 usermod -g <groupname> <username>
 
+apt update 
+----------
+downloads the latest available packages but not installed.
+
+apt upgrade
+-----------
+reinstall the latest downloaded packages.
+
