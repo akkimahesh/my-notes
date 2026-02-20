@@ -1,3 +1,7 @@
+Local Laptop
+--------------
+
+
 Apply these commands in the root folder
 ---------------------------------------
 
@@ -31,3 +35,312 @@ flutter build web -t lib/main_prod.dart
 
 ▶️ To run in Chrome (recommended test)
 flutter run -d chrome -t lib/main_dev.dart
+
+
+Remote Server
+-------------
+
+## Flutter Web → EC2 (Ubuntu) Deployment — End-to-End Guide
+
+This document covers the complete production workflow you followed:
+
+* Build Flutter web
+* Upload to EC2
+* Configure Nginx
+* Attach domain
+* Enable SSL (Certbot)
+* View logs
+
+You can reuse this for future projects.
+
+---
+
+# 1. Prerequisites
+
+## Local machine
+
+* Flutter installed
+* Chrome installed
+* Git Bash / PowerShell
+* SSH key (.pem)
+
+## EC2 instance
+
+* Ubuntu server
+* Ports open in Security Group:
+
+  * 22 (SSH)
+  * 80 (HTTP)
+  * 443 (HTTPS)
+
+---
+
+# 2. Build Flutter Web
+
+Go to your project root (where `pubspec.yaml` exists):
+
+```bash
+flutter pub get
+flutter build web -t lib/main_dev.dart
+```
+
+After success, build output will be:
+
+```
+build/web/
+  index.html
+  assets/
+  main.dart.js
+```
+
+---
+
+# 3. Connect to EC2
+
+```bash
+ssh -i your-key.pem ubuntu@YOUR_EC2_IP
+sudo -i
+```
+
+---
+
+# 4. Install Nginx
+
+```bash
+apt update
+apt install nginx -y
+systemctl enable nginx
+systemctl start nginx
+```
+
+Verify:
+
+```bash
+systemctl status nginx
+```
+
+---
+
+# 5. Create Deployment Directory
+
+```bash
+mkdir -p /var/www/sceneary/web
+```
+
+---
+
+# 6. Upload Flutter Build to EC2
+
+From your **local machine**:
+
+```bash
+scp -i your-key.pem -r build/web/* ubuntu@YOUR_EC2_IP:/var/www/sceneary/web/
+```
+
+Verify on server:
+
+```bash
+ls /var/www/sceneary/web
+```
+
+You must see:
+
+```
+index.html
+assets
+main.dart.js
+```
+
+---
+
+# 7. Configure Nginx (Domain Only — Recommended)
+
+Create site config:
+
+```bash
+nano /etc/nginx/sites-available/sceneary
+```
+
+Paste:
+
+```nginx
+server {
+    listen 80;
+    server_name web.sceneary.in;
+
+    root /var/www/sceneary/web;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+---
+
+# 8. Block Direct IP Access (Security Best Practice)
+
+Create default blocker:
+
+```bash
+nano /etc/nginx/sites-available/block-ip
+```
+
+Paste:
+
+```nginx
+server {
+    listen 80 default_server;
+    server_name _;
+    return 444;
+}
+```
+
+Enable configs:
+
+```bash
+rm -f /etc/nginx/sites-enabled/default
+ln -sf /etc/nginx/sites-available/sceneary /etc/nginx/sites-enabled/
+ln -sf /etc/nginx/sites-available/block-ip /etc/nginx/sites-enabled/
+```
+
+Test and reload:
+
+```bash
+nginx -t
+systemctl reload nginx
+```
+
+---
+
+# 9. Attach Domain
+
+In your DNS provider, create:
+
+| Type | Name | Value              |
+| ---- | ---- | ------------------ |
+| A    | web  | YOUR_EC2_PUBLIC_IP |
+
+Wait for DNS propagation (2–30 minutes).
+
+Test:
+
+```bash
+ping web.sceneary.in
+```
+
+---
+
+# 10. Enable HTTPS (Certbot — No Email)
+
+Install Certbot:
+
+```bash
+apt install certbot python3-certbot-nginx -y
+```
+
+Issue certificate:
+
+```bash
+certbot --nginx -d web.sceneary.in --register-unsafely-without-email --agree-tos --no-eff-email
+```
+
+Choose redirect when prompted.
+
+Test:
+
+```
+https://web.sceneary.in
+```
+
+---
+
+# 11. Verify Auto Renewal
+
+```bash
+certbot renew --dry-run
+```
+
+Check certificates:
+
+```bash
+certbot certificates
+```
+
+---
+
+# 12. Log Monitoring (Very Important)
+
+## Access log
+
+```bash
+tail -f /var/log/nginx/access.log
+```
+
+## Error log
+
+```bash
+tail -f /var/log/nginx/error.log
+```
+
+## Nginx service logs
+
+```bash
+journalctl -u nginx -n 50 --no-pager
+```
+
+## SSL logs
+
+```bash
+tail -f /var/log/letsencrypt/letsencrypt.log
+```
+
+---
+
+# 13. Deployment Update Process (Future Releases)
+
+Whenever you rebuild Flutter:
+
+### Local
+
+```bash
+flutter build web -t lib/main_dev.dart
+scp -i your-key.pem -r build/web/* ubuntu@YOUR_EC2_IP:/var/www/sceneary/web/
+```
+
+### Server
+
+```bash
+systemctl reload nginx
+```
+
+No restart usually needed.
+
+---
+
+# 14. Production Best Practices (Recommended Next)
+
+For high traffic (like your GPS platform):
+
+* Enable gzip in nginx
+* Enable browser caching
+* Use CloudFront CDN
+* Add log rotation
+* Use CI/CD pipeline
+
+---
+
+## ✅ Deployment Checklist
+
+* Flutter build successful
+* Files in `/var/www/sceneary/web`
+* Nginx root correct
+* Domain pointing to EC2
+* SSL working
+* IP blocked
+* Logs monitored
+
+---
+
+If you want, I can next prepare a **high-performance Nginx config optimized for Flutter web + 50k users**.
