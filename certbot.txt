@@ -1,0 +1,24 @@
+install first
+-------------
+
+sudo apt install certbot python3-certbot-nginx -y
+
+sudo certbot --nginx --register-unsafely-without-email --non-interactive --agree-tos -d example.com
+
+
+Renewal in Systemd Service
+--------------------------
+Create /etc/systemd/system/certbot-renew.service:
+
+text:
+-----
+
+[Unit]
+Description=Certbot Renewal
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/certbot renew --quiet --register-unsafely-without-email
+
+
+
+Enable with systemctl enable certbot-renew.timer—pairs perfectly with systemd timers for cron-like renewals every 12 hours.

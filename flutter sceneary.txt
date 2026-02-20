@@ -1,0 +1,33 @@
+Apply these commands in the root folder
+---------------------------------------
+
+flutter pub get      # Install all dependencies
+flutter build web    # Build your web app
+flutter run -d chrome  # Optional: Run directly in Chrome
+
+
+sometimes .dart files like these.
+
+main_dev.dart
+
+main_prod.dart
+
+main_staging.dart
+
+main_common.dart 
+
+Then run these commands
+-----------------------
+
+From your project root (sceneary-web/sceneary-web), run one of these:
+
+🔹 For dev build
+flutter build web -t lib/main_dev.dart
+🔹 For staging build
+flutter build web -t lib/main_staging.dart
+🔹 For production build
+flutter build web -t lib/main_prod.dart
+
+
+▶️ To run in Chrome (recommended test)
+flutter run -d chrome -t lib/main_dev.dart
