@@ -165,12 +165,23 @@ docker compose
 * without starting containers one by one we use docker compose to start at singal click.
 * docker compose can create network, volumes and attach it to the containers.
 
+sample compose file
+-------------------
+service:
+    mongodb:
+      image: mongodb:v1
 
+best practices
+--------------
+1. use official images
+2. reduce image size by using bare minimum OS like alpine, disto, core os, etc.
+3. use multi stage builds
+4. use docker volumes to persist the data
+5. use custom network to isolate containers from other projects
 
-
-
-
-
+* multi stage builds 
+--------------------
+multi stage builds are used for java projects. because run java application we need artifact right. for generating that use maven after generated we don't want maven. and then run that artifact on JRE. for these conditions we multi stages. if we don't follow multi staging abiously images size will be high.
 
 
 
