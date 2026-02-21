@@ -167,9 +167,14 @@ docker compose
 
 sample compose file
 -------------------
-service:
-    mongodb:
-      image: mongodb:v1
+services:
+  mongodb:
+    image: mongo  # Changed from non-standard 'mongodb:v1' to official 'mongo'
+    container_name: mongo
+    networks:
+      - roboshop
+    volumes:
+      - roboshop:/data/db  # Persists data; assumes host dir or named volume 'roboshop'
 
 best practices
 --------------
@@ -182,6 +187,43 @@ best practices
 * multi stage builds 
 --------------------
 multi stage builds are used for java projects. because run java application we need artifact right. for generating that use maven after generated we don't want maven. and then run that artifact on JRE. for these conditions we multi stages. if we don't follow multi staging abiously images size will be high.
+
+* for alpine Apk is a package manager.
+
+* /usr/share/ngnix/html/ we have *.html files right. we hint nginx ip it default loads the index.html. but we want another .html file. for this we can give <ip>/volume.html. or else edit default config file.
+
+
+volumes
+-------
+unnamed volumes vs named volumes
+--------------------------------
+*unnamed volumes are not in docker management.
+command to attach unnamed volumes: docker run -d -p 8080:80 -v /var/www/:/usr/share/nginx/html/ --name my-nginx nginx:alpine
+
+*named volume are under docker management.
+
+To see the volume path inside container just inspect the container. that path in host machine.
+
+docker volume create <volume_name>
+
+/var/lib/Docker ---> docker default path for volumes
+
+don't run container as a root user. because it is security privalage. when some enter into container they don't have access as a container root. they actually login as a some path like /opt/www like this,... so, they don't hack host file system from container. 
+
+layering
+--------
+Decreasing the build time by running multiple commands in a singal point.
+example:
+-------
+RUN yum install nginx \
+    yum install git \
+    yum install nodejs 
+
+Docker Hub also saved images like layers. if push another image to docker Hub if that image contains same data of first 4 lines of already existed image so, here remaining added on top of already existed layers.
+
+
+
+
 
 
 

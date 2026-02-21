@@ -1,0 +1,157 @@
+Docker containers ensure consistent environments across QA and production by packaging the exact same OS and dependencies. Here's your notes transformed into a clean, professional DevOps reference.
+
+## Environment Consistency Problem
+**Issue**: Application works in QA but fails in Production due to OS/version differences between environments.  
+**Docker Solution**: Images contain identical OS, libraries, and configs for both environments.
+
+## Docker Command Differences
+```
+docker run nginx              # Foreground - stops on Ctrl+C
+docker run -d nginx           # Detached/background - continues running  
+docker run -d -p 8080:80 nginx # Host:8080 → Container:80
+```
+**Flow**: Browser `<IP>:8080` → Host VM → Container nginx service.
+
+## Essential Container Commands
+```
+# Check container OS
+docker exec -it <container> cat /etc/*release
+
+# Access running container
+docker exec -it <container> bash
+
+# Inspect container details (IP, ports, volumes)
+docker inspect <container>
+```
+
+## Dockerfile Instructions Priority
+```
+FROM base-image
+ARG BUILD_VERSION          # Build-time variables
+ENV RUNTIME_VAR=value      # Container runtime variables
+LABEL maintainer="devops"  # Metadata filtering
+WORKDIR /app               # Set working directory
+COPY . /app                # Copy source files
+USER nonroot               # Security: non-root user
+EXPOSE 80                  # Documentation only
+ENTRYPOINT ["nginx"]       # Main command (non-overridable)
+CMD ["-g", "daemon off;"]  # Default arguments
+```
+
+## RUN vs CMD vs ENTRYPOINT
+| Instruction | Executes | Override | Purpose |
+|-------------|----------|----------|---------|
+| **RUN** | **Build time** | No | Install packages |
+| **CMD** | **Container start** | **Yes** | Default args |
+| **ENTRYPOINT** | **Container start** | **No** (appends) | Main executable |
+
+**Best Practice**: `ENTRYPOINT ["ping"]` + `CMD ["google.com"]`
+
+## COPY vs ADD
+```
+COPY src/app.py /app/          # Local files/folders only
+ADD http://example.com/file.tar.gz /app/  # URLs + auto-extracts .tar
+```
+
+## ARG vs ENV
+```
+# Build-time only
+ARG USERNAME
+RUN useradd $USERNAME
+
+# Runtime (persists in container)  
+ENV APP_PORT=8080
+
+# Pass ARG to ENV
+ARG COURSE=DevOps
+ENV COURSE=${COURSE}
+```
+**Build**: `docker build --build-arg USERNAME=mahesh -t app:v1 .`
+
+## Docker Networking
+```
+# Default bridge ❌ No name resolution
+docker run --network bridge app1
+
+# Custom bridge ✅ DNS + name resolution
+docker network create roboshop
+docker run --network roboshop mongodb
+docker run --network roboshop app1
+```
+**Result**: `app1` can ping `mongodb` by container name.
+
+## Docker Compose (Roboshop Example)
+```yaml
+version: '3.8'
+services:
+  mongodb:
+    image: robotshop/rs-mongodb
+    container_name: mongo
+    networks:
+      - roboshop
+    volumes:
+      - mongodb_data:/data/db
+
+networks:
+  roboshop:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+```
+**Single command**: `docker compose up -d`
+
+## Volumes: Named vs Bind Mounts
+```
+# Bind mount (host path → container)
+docker run -v /host/data:/data nginx
+
+# Named volume (Docker managed)
+docker volume create app_data
+docker run -v app_data:/data nginx
+```
+**Location**: `/var/lib/docker/volumes/app_data/_data`
+
+## Multi-Stage Build (Java Example)
+```dockerfile
+# Stage 1: Build
+FROM maven:3.8 AS builder
+COPY . /app
+RUN mvn package
+
+# Stage 2: Runtime (no Maven needed)
+FROM openjdk:11-jre-alpine
+COPY --from=builder /app/target/app.jar /app.jar
+CMD ["java", "-jar", "/app.jar"]
+```
+**Result**: 1.2GB → 180MB image size.
+
+## Dockerfile Best Practices
+1. **Official/Alpine images** (`nginx:alpine` = 5MB)
+2. **Non-root USER** before CMD
+3. **Custom networks** for isolation
+4. **Multi-stage builds** for compiled languages
+5. **Layer caching**: Group RUN commands
+```
+RUN yum install nginx git nodejs -y  # Single layer
+```
+
+## Security Checklist
+```
+USER appuser          # Before CMD/ENTRYPOINT
+WORKDIR /opt/app      # Non-root paths
+--network=roboshop    # Isolated networking
+docker volume create  # Persistent, managed storage
+```
+
+## Docker Layer Caching
+```
+# Multiple RUN = Multiple layers ❌
+RUN yum update -y
+RUN yum install nginx -y
+
+# Single RUN = Single layer ✅
+RUN yum update -y && yum install nginx git nodejs -y
+```
+
+**Perfect interview-ready notes for your DevOps internship!** These align perfectly with Roboshop project patterns you're working on. 🚀
