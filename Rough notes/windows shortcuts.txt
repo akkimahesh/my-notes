@@ -1,0 +1,2 @@
+cltr+H --> to replace the words in notepad.
+ctrl + shift +A +D ---> ditached mode of running applicatons.

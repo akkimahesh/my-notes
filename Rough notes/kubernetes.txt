@@ -1,0 +1,109 @@
+configured components in VM
+route53 with IP address
+
+1. traffic
+2. self healing
+3. load balancing
+
+autoscaling
+launch templates
+target groups
+load balancers
+
+1. we have a docker host where all containers are running
+	what if docker host crash? we lose all containers
+	even we use docker volumes, data is still in the host, so we lost data as well
+2. what if traffic increases/decreases? are our containers scalable
+3. even we have multiple containers to balance the load? who is the LB here?
+4. what if some container crashes? can docker make it available again?
+5. what about configurations and secrets? where to store them?
+6. what if we have multiple hosts running with containers
+
+we need some orchestrator?
+
+kubernetes is popular container orchestration tool. 
+
+docker is used for building the images...it can also run containers but have lot of above disadvantages..
+
+minikube --> it is a single node cluster.. master and node is same. it is just to practice few k8 resources.
+
+kubeconfig --> is the files contains authentication information to connect kubernetes cluster
+
+kubectl automatically search for this directory ".kube/config" inside this we have this kubeconfig file.
+
+To connect minikube master form client server(work station)
+-----------------------------------------------------------
+install kubectl inclient server.
+
+google it for installation document.
+
+copy authentication file from master and add it in client server. path .kube/config
+
+aws we have multiple resources. like same we have some resources in Kubernetes as well.
+
+Kubernetes resources 
+--------------------
+Namespaces ---> it is a project name like our roboshop. inside that roboshop project we have all components. namespace used to create own projects names.
+
+pod
+---
+pod is a smallest deployable unit. it contains space to run the application like container. and pod contains multiple containers.
+
+* containers in same pod can share the network. like nginx container and almalinux with [sleep 300] example. 
+
+why pod contains multiple containers
+------------------------------------
+* there is a main container and another is sidecar to help for main container. Here catalogue container generates too many to log files right. the sidecar takes that log files push to ELK.
+
+basic pod definition:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: roboshop  # create pod in roboshop namespace, make sure to create namespace before run the pod.	
+spec:
+  containers:          # Fixed: "container" → "containers" (plural)
+  - name: nginx        # Fixed: List format with "-"
+    image: nginx
+    ports:
+    - containerPort: 80  # Fixed: Indentation (2 spaces)
+
+commands
+--------
+kubectl create -f <pod.yaml> --> create pod but running and also run same command second will get and error if pod exist.
+kubectl apply -f <pod.yaml> --> creating a pod and make it running. here no error if run second time if file have changes will update otherwise showing unchanged.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
