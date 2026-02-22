@@ -41,15 +41,21 @@ copy authentication file from master and add it in client server. path .kube/con
 
 aws we have multiple resources. like same we have some resources in Kubernetes as well.
 
+rolling update: If you change image to 1.1 → Rolling update happens automatically
+
 Kubernetes resources 
 --------------------
 Namespaces ---> it is a project name like our roboshop. inside that roboshop project we have all components. namespace used to create own projects names.
+pod --->
+Deployment ---> A Deployment is a controller that manages a collection of Pods. Deployment = Pod Manager 
+
 
 pod
 ---
 pod is a smallest deployable unit. it contains space to run the application like container. and pod contains multiple containers.
 
 * containers in same pod can share the network. like nginx container and almalinux with [sleep 300] example. 
+* main difference b/w pod and container is in docker containers not to share same n/w have different private ips. but in pod container have same private ips can share each other. and also in pod container share volumes also.
 
 why pod contains multiple containers
 ------------------------------------
@@ -69,12 +75,122 @@ spec:
     ports:
     - containerPort: 80  # Fixed: Indentation (2 spaces)
 
+
+services
+---------
+**No, Service is NOT like an EC2 Security Group.** They're completely different concepts.
+
+## Kubernetes Service vs EC2 Security Group
+
+| **Kubernetes Service**                | **EC2 Security Group**                |
+|---------------------------------------|----------------------                 |
+| **Load balancer + Service Discovery** | **Firewall rules**                    |
+| **Routes traffic TO pods**            | **Controls traffic TO EC2 instances** |
+| `<service-name>` → Pod IPs            | Port 80, 443 inbound allowed          |
+| **Internal cluster networking**       | **AWS VPC networking**                |
+
+## What Service Actually Does
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+spec:
+  selector:
+    app: frontend      # Targets frontend pods
+  ports:
+  - port: 80           # Service port
+    targetPort: 8080   # Pod port
+```
+**Result**: `frontend-svc:80` → any frontend pod:8080 (automatic load balancing)
+
+## Visual Flow
+```
+Browser → frontend-svc:80 → Pod1:8080
+                       ↔ Pod2:8080  
+                       ↔ Pod3:8080
+```
+
+## EC2 Security Group Analogy (Wrong)
+```
+❌ WRONG: Service = Firewall
+✅ CORRECT: Service = Internal Load Balancer + DNS
+```
+
+## Roboshop Example
+```yaml
+# Deployment creates 3 frontend pods
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  replicas: 3
+
+---
+# Service gives single stable endpoint
+apiVersion: v1
+kind: Service  
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+```
+**Access**: `frontend-service.roboshop.svc.cluster.local` (not individual pod IPs)
+
+## Real Security in Kubernetes
+```
+# NetworkPolicy (actual Kubernetes firewall)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+spec:
+  podSelector: {}           # Like Security Group rules
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: backend      # Only backend → frontend
+```
+
+**Service = Networking Layer 7 (load balancing)**  
+**Security Group = Networking Layer 4 (firewall)**
+
+labels:
+-------
+labels:
+  Enploye: Mahesh
+  experience: 0.2
+
+labels are always in key-value pair. used to attach another resources also.
+
+
 commands
 --------
-kubectl create -f <pod.yaml> --> create pod but running and also run same command second will get and error if pod exist.
+kubectl create -f <pod.yaml> --> create pod and also run same command second will get and error if pod exist.
+
 kubectl apply -f <pod.yaml> --> creating a pod and make it running. here no error if run second time if file have changes will update otherwise showing unchanged.
 
+kubectl describe pod <pod_name> = Docker inspect
 
+kubectl delete -f yamlfile.yaml --> delete the resources
+
+kubectl get namespaces --> will get all namespaces in cluster
+
+kubectl get nodes
+
+kubectl exec -it <pod_name> -- bash ---> login into pod like docker container.
+
+labels vs annotaions
+--------------------
+labels --> have some limitation on the length and charecters of key and values
+annotaions --> no limit on length and special charecters also can be used...
+
+labels are used to select other kubernetes resources.
+annotaions are used to select external resources to kubernetes. in annotation we can give external urls also.
+
+class-2
+-------
 
 
 
