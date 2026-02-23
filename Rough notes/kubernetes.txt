@@ -43,11 +43,12 @@ aws we have multiple resources. like same we have some resources in Kubernetes a
 
 rolling update: If you change image to 1.1 → Rolling update happens automatically
 
-Kubernetes resources 
+Kubernetes resources [in Kubernetes every resource can be written in yaml language that called manifest files]
 --------------------
 Namespaces ---> it is a project name like our roboshop. inside that roboshop project we have all components. namespace used to create own projects names.
 pod --->
-Deployment ---> A Deployment is a controller that manages a collection of Pods. Deployment = Pod Manager 
+Deployment ---> A Deployment is a controller that manages a collection of Pods. Deployment = Pod Manager
+configmap ---> it is a configuration store.  
 
 
 pod
@@ -171,6 +172,8 @@ kubectl create -f <pod.yaml> --> create pod and also run same command second wil
 
 kubectl apply -f <pod.yaml> --> creating a pod and make it running. here no error if run second time if file have changes will update otherwise showing unchanged.
 
+kubectl get pods --> display running pods
+
 kubectl describe pod <pod_name> = Docker inspect
 
 kubectl delete -f yamlfile.yaml --> delete the resources
@@ -191,6 +194,24 @@ annotaions are used to select external resources to kubernetes. in annotation we
 
 class-2
 -------
+
+workstation --> Kubernetes master ---> work nodes
+
+nodegroups --> means we manage the nodes.
+
+maanagesNodeGroups --> completely aws can manage.
+
+To create cluster:
+------------------
+aws configure ---> 
+eksctl create cluster --config-file=eksctl.yaml
+
+base64
+------
+echo -n "admin" | base64
+echo -n "admin" | base64 --decode
+
+
 
 
 
