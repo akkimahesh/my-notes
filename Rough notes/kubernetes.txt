@@ -163,7 +163,7 @@ labels:
   Enploye: Mahesh
   experience: 0.2
 
-labels are always in key-value pair. used to attach another resources also.
+labels are always in key-value pair. used to attach another resources also. like we already have running a pod so how we attach it to service. so through the label we can attach.
 
 
 commands
@@ -195,6 +195,8 @@ annotaions are used to select external resources to kubernetes. in annotation we
 class-2
 -------
 
+ephemeral = dynamic, it means pod is dynamically changes so it's ip also changing.
+
 workstation --> Kubernetes master ---> work nodes
 
 nodegroups --> means we manage the nodes.
@@ -210,6 +212,87 @@ base64
 ------
 echo -n "admin" | base64
 echo -n "admin" | base64 --decode
+
+configmap
+---------
+used to store the insensitive values.
+
+secrets 
+--------
+to secrets values in encoded fomat.
+
+services
+--------
+very important concept in k8s.
+
+user--->service---->pod
+
+1. service is used to expose application to outside.
+2. and also used for load balanceing.
+3. service mesh is like ALB in aws. request comes to service mesh and service mesh requests go to pods.
+
+inside service we have
+----------------------
+Cluster IP ---> within the Kubernetes not expose to internet.
+node port ---> expose to outside the world
+loadbalancing ---> expose to outside the world. only work in cloud providers.
+
+
+Services is like route53 records. ip changes but name not change. here service IP can change but name not change. name is like DNS.
+
+pod is subset of Replicaset.
+
+Replicaset is only for maintain number of replicas. it don't have capable of new version update.
+
+note this:
+---------
+pod < clusterip < nodeport < LB
+
+pod < replicaset < Deployment
+
+Rolling update: create new replicaset and new pod created then old pod terminated. same scenario follows upto all new pod up. based on application few there will run old version and new version. without effecting the users.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

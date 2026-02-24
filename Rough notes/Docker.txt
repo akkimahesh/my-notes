@@ -32,6 +32,8 @@ docker build -t <url>/<username>/<imagename:latest>
 
 docker tag from:v1 joindevops/from:v1--> rename the image.
 
+docker stats <container_name> --> to see of that particular time how cpu and memory usage of the container.
+
 RUN vs CMD
 ----------
 RUN instruction runs while image building. Here CMD instruction will not work.
