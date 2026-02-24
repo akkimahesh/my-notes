@@ -1,0 +1,136 @@
+# ✅ Step 1: Connect as ubuntu first
+
+Use your working login:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 ubuntu@174.129.87.209
+```
+
+---
+
+# ✅ Step 2: Switch to root
+
+```bash
+sudo -i
+```
+
+Now you are root.
+
+---
+
+# ✅ Step 3: Create root SSH directory
+
+```bash
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+```
+
+---
+
+# ✅ Step 4: Add your public key to root
+
+⚠️ Use the **public key (.pub)** from your GitHub secret (`EC2_SSH_KEY` public pair).
+
+From your local machine, copy:
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+It looks like:
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... ec2-runner
+```
+
+Now on EC2 (as root):
+
+```bash
+nano /root/.ssh/authorized_keys
+```
+
+Paste the key → save.
+
+Then fix permissions:
+
+```bash
+chmod 600 /root/.ssh/authorized_keys
+```
+
+---
+
+# ✅ Step 5: Enable root login in SSH config
+
+Edit SSH config:
+
+```bash
+nano /etc/ssh/sshd_config
+```
+
+Find:
+
+```
+PermitRootLogin
+```
+
+Change to:
+
+```
+PermitRootLogin prohibit-password
+```
+
+⚠️ **Do NOT use `yes`** (security risk)
+
+---
+
+# ✅ Step 6: Restart SSH
+
+```bash
+systemctl restart ssh
+```
+
+(or `sshd` on some systems)
+
+---
+
+# ✅ Step 7: Test root login manually (VERY IMPORTANT)
+
+From your local machine:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 root@174.129.87.209
+```
+
+If this fails ❌
+GitHub Actions will also fail.
+
+---
+
+# ✅ Step 8: Update GitHub Actions
+
+Now you can safely use:
+
+```yaml
+ssh root@${{ secrets.EC2_HOST }}
+```
+
+or set:
+
+```yaml
+EC2_USER=root
+```
+
+in your repository secrets.
+
+---
+
+# 🔥 Production recommendation (important)
+
+For Node apps, industry standard is:
+
+* ❌ app as root
+* ✅ nginx on port 80 (root)
+* ✅ node app as ubuntu on port 3000
+* ✅ reverse proxy
+
+This is much safer and scalable.

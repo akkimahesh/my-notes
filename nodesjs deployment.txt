@@ -561,26 +561,6 @@ OR how to structure this properly for enterprise level
 Your DevOps skills improving fast 🔥
 
 
-You said:
-please make it PDF
-
-ChatGPT said:
-Your PDF is ready ✅
-
-
-
-If you want, I can also create a more detailed professional version including:
-
-Nginx configuration
-
-SSL (Certbot) setup
-
-CI/CD integration
-
-Architecture diagram
-
-Production best practices
-
 
 
 git pull error comes like below
@@ -597,6 +577,14 @@ git pull
 then, 
 pm2 list 
 pm2 restart <application_name> ---> automatically application restart with changes
+
+if your using pm2 run below command zero  down time if application updated with new version
+-------------------------------------------------------------------------------------------
+- name: Install dependencies & reload app
+      cd /var/www/scutiarts
+      npm install --production
+      pm2 reload Scutiarts-dev || pm2 start server.js --name Scutiarts-dev --env production
+      pm2 save
 
 
 

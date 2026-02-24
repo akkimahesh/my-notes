@@ -158,7 +158,7 @@ main.dart.js
 Create site config:
 
 ```bash
-nano /etc/nginx/sites-available/sceneary
+vi /etc/nginx/sites-available/sceneary
 ```
 
 Paste:

@@ -184,6 +184,7 @@ kubectl get nodes
 
 kubectl exec -it <pod_name> -- bash ---> login into pod like docker container.
 
+
 labels vs annotaions
 --------------------
 labels --> have some limitation on the length and charecters of key and values
