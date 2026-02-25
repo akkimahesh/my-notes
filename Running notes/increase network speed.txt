@@ -1,0 +1,5 @@
+win+R
+select terminal admin
+type: netsh winsock reset
+type:  netsh int ip reset
+reboot laptop

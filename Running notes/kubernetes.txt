@@ -193,6 +193,24 @@ annotaions --> no limit on length and special charecters also can be used...
 labels are used to select other kubernetes resources.
 annotaions are used to select external resources to kubernetes. in annotation we can give external urls also.
 
+env
+---
+assign environment variables inside the container.
+always assign env inside the spec block. that means assign it to container.
+
+resouces:
+---------
+the resources block is used to limit the container usage. like cpu, memory.
+ resources:
+      requests:
+        cpu: "100m"
+        memory: "68Mi"
+      limits:
+        cpu: "200m"
+        memory: "128Mi"
+
+
+
 class-2
 -------
 
@@ -216,11 +234,11 @@ echo -n "admin" | base64 --decode
 
 configmap
 ---------
-used to store the insensitive values.
+configmap is also a resource used to store the insensitive values.
 
 secrets 
 --------
-to secrets values in encoded fomat.
+to secrets values in encoded format.
 
 services
 --------
@@ -253,6 +271,9 @@ pod < replicaset < Deployment
 
 Rolling update: create new replicaset and new pod created then old pod terminated. same scenario follows upto all new pod up. based on application few there will run old version and new version. without effecting the users.
 
+kubectl get deployments -n roboshop --> get deployments in particular namespace
+
+kubectl get pods -o wide ---> to see pods that are present in which node.
 
 
 
