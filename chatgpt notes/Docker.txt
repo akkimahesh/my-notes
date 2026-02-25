@@ -39,10 +39,10 @@ CMD ["-g", "daemon off;"]  # Default arguments
 ```
 
 ## RUN vs CMD vs ENTRYPOINT
-| Instruction | Executes | Override | Purpose |
-|-------------|----------|----------|---------|
-| **RUN** | **Build time** | No | Install packages |
-| **CMD** | **Container start** | **Yes** | Default args |
+| Instruction | Executes            | Override            | Purpose |
+|-------------|---------------------|---------------------|---------|
+| **RUN**     | **Build time** | No | Install packages    |
+| **CMD**     | **Container start** | **Yes**             | Default args |
 | **ENTRYPOINT** | **Container start** | **No** (appends) | Main executable |
 
 **Best Practice**: `ENTRYPOINT ["ping"]` + `CMD ["google.com"]`
