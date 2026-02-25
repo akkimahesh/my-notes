@@ -1,0 +1,52 @@
+class-1
+-------
+terraform is a Infrastructure as a code tool.
+
+If you Application Run in Dev environment I'm not running in production environment Because of Changes in configuration But here we're using same configuration in Dave and production.
+
+Obviously we Keep our code in Github So we can manage the version control of Our infrastructure Our application Not running well We immediately get back to previous versions.
+
+Inventory management
+If suddenly client ask What the services you created in our infrastructure So it is hard to search each service and see The services using terraform All the services we created that all the information saved in the state file So we can easily See that our infrastructure.
+
+Cost Optimization 
+So using terraform We simply delete our infrastructure with single click So whenever we want our infrastructure with single click we can create our infrastructure
+
+Dependency management
+Terraform is a dependency management For example when we create route 53 the route 53 is fully depending on ec 2 servers So terrafum know what to create first and what to create Second.
+
+Modules
+-------
+The best Advantage using terraform is Creating modules It means You can implement the module That same module Can use different Teams if they have  same Requirement They just change the Variable values. And also we can use that same model with different environments like dev production qa etc.
+
+Terraform is a declarative whatever you write you will get it With proper syntax.
+
+If you use the terraform We can easily get back to our original state of our application. If someone Changes manually in Infrastructure.
+
+AWS provider Is a api To manage cloud infra with terraform It is fully developed by the AWS itself Same like we have Many providers in terraform Like Github So using Github provider we can manage Repository creation repository deletion And other settings in the github Through that provider Here provider is like API.
+
+
+
+Terraform Files have .TF extention Without.Tf Teraform will not consider it is terraform file.
+
+Terrafrom init: It initialises Aws plugs With the help of Provider block The plugins are used to Communicate with the Cloud provider. After run this command you will able to see  .terraform file
+That file contains the Plugins Or software.
+
+Terraform plan: It just displays the blueprint of what going to be create How many resource going to be create. 
+
+Topics:
+variables 
+Conditions  
+loop
+Functions 
+datatypes 
+
+[] list
+{} map
+
+In Terraform no need to follow sequence terraform will know what to create first.
+
+Variable block is used to overcome the hard coding in the main script. So without disturbing the main script we just change the variable values in variable block Then script taken from variable block.
+
+
+
