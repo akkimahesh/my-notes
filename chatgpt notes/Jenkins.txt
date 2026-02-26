@@ -1,0 +1,369 @@
+## 🧾 Jenkins & DevOps Running Notes — Clean & Structured
+
+---
+
+# 🔹 Input Block (Pipeline Safety)
+
+**Purpose:**
+Before proceeding with deployment/configuration, ask for manual approval.
+
+```groovy
+input {
+    message "All configurations look good. Proceed?"
+    ok "Yes, Continue"
+}
+```
+
+✅ Used as a manual gate
+✅ Prevents accidental deployments
+
+---
+
+# 🔹 Jenkins Best Practices
+
+## 👤 Run Jenkins as Normal User (NOT root)
+
+* Always connect Jenkins agent using a **non-root user**
+* Improves security
+* Follows production best practices
+
+---
+
+## ⚙️ Important Pipeline Options
+
+### 1️⃣ `options {}`
+
+Used for pipeline-level settings.
+
+Example:
+
+```groovy
+options {
+    timeout(time: 30, unit: 'MINUTES')
+}
+```
+
+---
+
+### 2️⃣ `post {}`
+
+Runs actions after pipeline completion.
+
+Example:
+
+```groovy
+post {
+    always {
+        deleteDir()
+    }
+}
+```
+
+### 🧹 `deleteDir()`
+
+* Deletes workspace directory
+* Keeps Jenkins clean
+* Prevents stale files
+
+---
+
+### 3️⃣ `when {}` condition
+
+Controls stage execution.
+
+Example:
+
+```groovy
+when {
+    branch 'main'
+}
+```
+
+---
+
+# 🔹 Required Jenkins Plugin
+
+## 📦 Pipeline Utility Steps Plugin
+
+**Purpose:** Read JSON files inside Jenkins.
+
+Example:
+
+```groovy
+def data = readJSON file: 'config.json'
+```
+
+✅ Parse JSON
+✅ Useful for dynamic pipelines
+
+---
+
+# 🔹 SCM Integration
+
+When pipeline is configured **from SCM**:
+
+✅ Code automatically clones
+❌ No need for manual `git clone`
+
+---
+
+# 🔹 Node.js Important Concept
+
+## 📁 `node_modules`
+
+* Created after running:
+
+```bash
+npm install
+```
+
+**Contains:**
+
+* All required dependencies
+* Required to run `server.js`
+
+⚠️ Without `node_modules`, Node app will fail.
+
+---
+
+# 🔹 Schema Concept
+
+**Meaning:**
+
+Schema defines structure of data in DB.
+
+📦 Example:
+
+* Amazon seller uploads products via console
+* Similarly, we load products into DB using files
+
+---
+
+# 🔹 Nexus Requirements
+
+⚠️ **Java is mandatory** for Nexus.
+
+---
+
+# 🔹 Running Terraform from Jenkins Agent
+
+## ✅ Prerequisites
+
+1. Terraform installed on agent server
+2. AWS credentials configured on agent
+
+Without these → Terraform will fail.
+
+---
+
+# 🔹 Zip Command Explained
+
+```bash
+zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+```
+
+## 🔍 Flags Meaning
+
+* `-q` → Quiet mode (silent output)
+* `-r` → Recursive
+* `catalogue.zip` → Output zip name
+* `./*` → Include all files in current directory
+* `-x` → Exclude files
+
+### ⚠️ Why exclude `*.zip`?
+
+If run again:
+
+* Previous zip may get included
+* Causes nested zip problem
+
+---
+
+# 🔹 Nexus Versioning Strategy
+
+| Environment | Version Format   |
+| ----------- | ---------------- |
+| DEV         | `1.0.0-SNAPSHOT` |
+| PROD        | `1.0.0-release`  |
+
+---
+
+# 🔹 Jenkins → Nexus Integration
+
+## Required Plugin
+
+* **Nexus Artifact Uploader**
+
+## Steps
+
+1. Install plugin
+2. Store Nexus credentials
+3. Use pipeline upload step
+
+---
+
+## 🔐 Store Nexus Credentials in Jenkins
+
+Path:
+
+> Jenkins → Manage Jenkins → Credentials
+
+Example:
+
+* Username: `admin`
+* Password: `admin@123`
+* ID: your choice
+* Description: optional
+
+---
+
+# 🔹 Provision Meaning
+
+**Provision =**
+
+> Installing required software, packages, and applications automatically.
+
+---
+
+# 🔹 Catalogue Deployment Structure
+
+Recommended repo layout:
+
+```
+catalogue-deploy/
+ ├── Jenkinsfile
+ └── terraform/
+      └── *.tf
+```
+
+---
+
+# 🔹 Parent → Child Job Trigger (Important)
+
+Jenkins is event-driven.
+
+After parent job completes → child job is triggered.
+
+Example:
+
+```groovy
+stage('Deploy') {
+    steps {
+        script {
+            def params = [
+                string(name: 'version', value: "${VERSION}"),
+                string(name: 'environment', value: "dev")
+            ]
+
+            build job: "child-job-name",
+                  parameters: params,
+                  wait: true
+        }
+    }
+}
+```
+
+✅ Pass parameters
+✅ Wait for child completion
+
+---
+
+# 🔹 SonarQube Setup
+
+⚠️ Java is mandatory
+
+## Flow
+
+```
+sonarscanner → SonarQube → Reports
+```
+
+---
+
+## 🔧 Configure Sonar Scanner on Agent
+
+Edit:
+
+```bash
+sonar-scanner.properties
+```
+
+Add:
+
+```properties
+sonar.host.url=http://<sonarqube-ip>
+sonar.login=<token>
+```
+
+---
+
+# 🔹 Multibranch Pipeline
+
+**Purpose:**
+
+* Developers own repo
+* DevOps should not disturb branches
+* Jenkins auto-discovers branches
+
+✅ CI/CD automation
+✅ Clean branch isolation
+
+---
+
+# 🔹 Jenkins Shared Libraries
+
+Used to:
+
+* Reuse pipeline code
+* Avoid duplication
+* Standardize pipelines
+
+---
+
+# 🔹 Parallel Stages in Jenkins
+
+Run jobs simultaneously to save time.
+
+Example:
+
+```groovy
+parallel {
+    stage('Test') {
+        steps {
+            echo 'Running tests'
+        }
+    }
+    stage('Lint') {
+        steps {
+            echo 'Running lint'
+        }
+    }
+}
+```
+
+✅ Faster pipelines
+✅ Better resource usage
+
+---
+
+# 🔹 `.groovy` Files in Jenkins
+
+**Meaning:**
+
+* Written in Groovy (superset of Java)
+* Used like variables in:
+
+  * Terraform (`variables.tf`)
+  * Ansible (`vars.yaml`)
+
+**Purpose:**
+
+* Store reusable logic
+* Centralized configuration
+
+---
+
+## ✅ Your Notes — Now Production Ready
+
+---
+

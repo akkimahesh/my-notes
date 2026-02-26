@@ -277,6 +277,8 @@ kubectl get pods -o wide ---> to see pods that are present in which node.
 
 kubens: ---> it sets the default namespace
 
+filebeat (sidecar) ---> agent to access logs and push to elk.
+
 
 
 
