@@ -275,6 +275,8 @@ kubectl get deployments -n roboshop --> get deployments in particular namespace
 
 kubectl get pods -o wide ---> to see pods that are present in which node.
 
+kubens: ---> it sets the default namespace
+
 
 
 

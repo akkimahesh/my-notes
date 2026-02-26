@@ -46,7 +46,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... ec2-runner
 Now on EC2 (as root):
 
 ```bash
-nano /root/.ssh/authorized_keys
+vi /root/.ssh/authorized_keys
 ```
 
 Paste the key → save.
@@ -64,7 +64,7 @@ chmod 600 /root/.ssh/authorized_keys
 Edit SSH config:
 
 ```bash
-nano /etc/ssh/sshd_config
+vi /etc/ssh/sshd_config
 ```
 
 Find:

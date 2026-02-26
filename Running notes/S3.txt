@@ -14,7 +14,7 @@ advantages
 why bucket name should be unique?
 Because amazon creates the subdomain of our bucket. domain name should be like <bucket_name>.*.amazon.com
 
-* if you give public access to particular object in S3 make sure bucket will be in public. then only object enabled as public access.
+* if you give public access to particular object in S3 make sure bucket will be in public. then only object enabled as public access. and make sure to add public policy.
 
 To give bucket as public---> go to permissions tab.
 To give objects as public ---> go object actions---> make public
