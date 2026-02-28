@@ -587,5 +587,8 @@ if your using pm2 run below command zero  down time if application updated with 
       pm2 save
 
 
+ npx serve . --> to run locally
+
+
 
 

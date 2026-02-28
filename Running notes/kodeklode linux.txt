@@ -1,0 +1,11 @@
+echo $HOME - shows the home directory
+
+chsh -s /bin/sh bob - change shell, bob is a user
+
+echo 'export PROJECT=MERCURY' >> ~/.profile - create env variable attach in profile so all users can use it.
+
+echo 'PS1="[\d]\u@\h:\w$ "' >> ~/.profile -- change to date format.
+source ~/.profile
+
+In this lab, we will secure the development environment by utilizing iptables.
+==============================================================================

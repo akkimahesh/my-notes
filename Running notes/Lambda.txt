@@ -1,0 +1,93 @@
+Serverless
+==========
+
+we don't maintain the server aws can take care.
+
+VM is a iaas so ur the responsible for runtime and application defencencies.
+1. when os get some patches user can update that.
+
+but lambda serverless
+=====================
+aws can take care of os update and runtime, you provide code to it.
+
+Container as service 
+====================
+Os take care of engine, you just provide runtime, code
+
+How lambda works
+================
+Lambda also running a container, when request receives from user lambda create the container for our application within 100's microseconds run it and reponse back to user. if user exit container will be deleted.
+
+aws can handle monitoring and logs for Lambda.
+
+sclability: based on the traffic aws can create multiple container parallely. 
+
+
+AWS Lambda and Google Cloud Run are both serverless ways to run code without managing servers, but they model the workload very differently: Lambda is a Function‑as‑a‑Service (FaaS) while Cloud Run is a container‑based serverless platform. [docs.cloud.google](https://docs.cloud.google.com/architecture/migrate-aws-lambda-to-cloudrun)
+
+*
+
+ Core difference: code vs container
+=====================================
+
+- AWS Lambda:  
+  You upload a function (e.g., Python, Node.js, Java handler) and AWS runs it on managed infrastructure. Lambda is event‑driven and built around short‑lived function executions (e.g., HTTP via API Gateway, S3 events, SQS, etc.). [saigontechnology](https://saigontechnology.com/blog/aws-lambda-vs-google-cloud-functions/)
+
+- Google Cloud Run:  
+  You deploy a container image (any language, any framework) and Cloud Run runs it as a managed service with HTTP endpoints. Under the hood it uses containers but you don’t manage the VMs or Kubernetes. [slashdot](https://slashdot.org/software/comparison/AWS-Lambda-vs-Google-Cloud-Run/)
+
+In short:  
+- Lambda = functions, not full apps.  
+- Cloud Run = any containerized app or service (REST API, worker, microservice). [linkedin](https://www.linkedin.com/pulse/serverless-costs-demystified-aws-lambda-vs-gcp-cloud-run-pankaj-qp3xc)
+
+*
+
+
+
+ Language and runtime flexibility
+==================================
+
+- Lambda supports a set of managed runtimes (Node.js, Python, Java, Go, .NET, etc.); you must package your code to fit those runtimes. [stackoverflow](https://stackoverflow.com/questions/76301228/why-doesnt-google-cloud-run-require-runtimes-as-aws-lambda-does)
+- Cloud Run accepts any container image, so you can run any language, custom runtime, legacy app, or even an existing Docker‑ized backend. [slashdot](https://slashdot.org/software/comparison/AWS-Lambda-vs-Google-Cloud-Run/)
+
+This makes Cloud Run more flexible for existing apps, while Lambda is cleaner for green‑field, event‑driven functions. [linkedin](https://www.linkedin.com/pulse/serverless-costs-demystified-aws-lambda-vs-gcp-cloud-run-pankaj-qp3xc)
+
+*
+
+ Memory, CPU, and time limits
+==============================
+
+- Lambda:  
+  - You choose memory (128 MB – 10 GB), and CPU scales roughly with it.  
+  - Max execution time is 15 minutes per invocation. [iamondemand](https://iamondemand.com/blog/google-cloud-run-vs-aws-lambda-is-cloud-run-a-serverless-game-changer-part-1/)
+
+- Cloud Run:  
+  - You choose CPU and memory for your container (e.g., 1–4 vCPU, 1–8 GB RAM).  
+  - You set max request timeout (e.g., 5–60 minutes) and it can handle long‑running HTTP requests. [iamondemand](https://iamondemand.com/blog/google-cloud-run-vs-aws-lambda-is-cloud-run-a-serverless-game-changer-part-1/)
+
+So Cloud Run is often better for longer‑running or heavier workloads; Lambda is better for short, bursty tasks. [iamondemand](https://iamondemand.com/blog/google-cloud-run-vs-aws-lambda-performance-benchmarks-part-2/)
+
+*
+
+ Cost and billing model
+========================
+
+- Lambda:  
+  Pay per request + duration (in ms) on allocated memory. Very cheap for sporadic, small workloads. [iamondemand](https://iamondemand.com/blog/google-cloud-run-vs-aws-lambda-performance-benchmarks-part-2/)
+
+- Cloud Run:  
+  Pay per CPU + memory + network usage while instances are running (per second, with a 1‑minute free tier). More cost‑efficient for steady or I/O‑heavy traffic because one instance can handle many requests. [iamondemand](https://iamondemand.com/blog/google-cloud-run-vs-aws-lambda-performance-benchmarks-part-2/)
+
+In many benchmarks, Cloud Run can be cheaper for I/O‑heavy, concurrent workloads, while Lambda wins for low‑traffic, event‑driven functions. [linkedin](https://www.linkedin.com/pulse/serverless-costs-demystified-aws-lambda-vs-gcp-cloud-run-pankaj-qp3xc)
+
+*
+
+ When to use which?
+
+- Use AWS Lambda when you want:  
+  - Event‑driven microfunctions (e.g., S3 triggers, API‑backing handlers).  
+  - Very fine‑grained, short‑lived tasks with low and bursty traffic. [saigontechnology](https://saigontechnology.com/blog/aws-lambda-vs-google-cloud-functions/)
+
+- Use GCP Cloud Run when you want:  
+  - Full applications or microservices you already containerize.  
+  - Stronger control over environment, custom runtimes, and longer HTTP requests. [slashdot](https://slashdot.org/software/comparison/AWS-Lambda-vs-Google-Cloud-Run/)

@@ -1,0 +1,7 @@
+RESTAPI
+-------
+generally api's are developed by backend team. after completed  writing api's they given to frontend team they keep it configuration files. 
+
+/api/v1/catalogue/ ---> this is called endpoint.
+
+when you hint this endpoints these will redirected to backend business code through Ip address or DNS. that is also configured in frontend application.  
