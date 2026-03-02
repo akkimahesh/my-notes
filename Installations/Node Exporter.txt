@@ -1,0 +1,46 @@
+#download the tar file from official Doc
+========================================
+wget https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-amd64.tar.gz
+
+
+#extract it
+===========
+tar -xf <file.tar.gz> /opt/
+
+#change the directory
+=====================
+cd /opt/
+
+#rename file name
+================
+mv <file_name> node_exporter
+
+cd node_exporter
+
+sh <script_name>
+
+
+   {OR}
+
+#run it as service
+==================
+vi /etc/systemd/system/node_exporter.service
+
+#ADD THIS
+=========
+[Unit]
+Description=prometheus service.
+
+[Service]
+ExecStart=/opt/node_exporter/node_exporter
+
+[Install]
+WantedBy=multi-user.target
+
+#Run the service
+=================
+systemctl start node_exporter
+
+systemctl status node_exporter
+
+systemctl enable node_exporter

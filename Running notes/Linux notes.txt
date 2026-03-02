@@ -127,3 +127,5 @@ apt upgrade
 -----------
 reinstall the latest downloaded packages.
 
+curl ifconfig.me --> to print server public ip
+

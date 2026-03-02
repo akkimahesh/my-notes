@@ -1,0 +1,48 @@
+#Download the tar file official document.
+=========================================
+verion: 3.5.1
+wget https://github.com/prometheus/prometheus/releases/download/v3.5.1/prometheus-3.5.1.linux-amd64.tar.gz 
+
+
+extract it
+==========
+tar -xf <tar_file> /opt/
+
+change directory
+================
+cd /opt/
+
+rename for easy access
+======================
+mv <file_name> Prometheus
+
+cd prometheus 
+
+sh prometheus  
+
+
+     {OR}
+
+#run it as service
+==================
+vi /etc/system/system/prometheus.service
+
+ADD this
+========
+[Unit]
+Description=prometheus service.
+
+[Service]
+ExecStart=/opt/prometheus/prometheus --config.file=/opt/prometheus/prometheus.yml
+
+[Install]
+WantedBy=multi-user.target
+
+#run the prometheus
+====================
+systemctl start prometheus
+
+systemctl status prometheus
+
+systemctl enable prometheus
+

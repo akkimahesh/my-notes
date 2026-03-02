@@ -22,6 +22,12 @@ aws can handle monitoring and logs for Lambda.
 
 sclability: based on the traffic aws can create multiple container parallely. 
 
+IAM policy for cloudwatch to monitoring and logging.
+
+By default we have python and nodejs languages to edit function.
+
+Every function have separate IAM policy or else add the another function arn in existing IAM role.
+
 
 AWS Lambda and Google Cloud Run are both serverless ways to run code without managing servers, but they model the workload very differently: Lambda is a Function‑as‑a‑Service (FaaS) while Cloud Run is a container‑based serverless platform. [docs.cloud.google](https://docs.cloud.google.com/architecture/migrate-aws-lambda-to-cloudrun)
 
