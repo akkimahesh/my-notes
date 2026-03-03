@@ -1,0 +1,11 @@
+#alart manager
+================
+wget https://github.com/prometheus/alertmanager/releases/download/v0.31.1/alertmanager-0.31.1.linux-amd64.tar.gz
+
+
+#exact it
+=========
+tar -xzf <file> -C /opt
+
+#Run it as service
+==================

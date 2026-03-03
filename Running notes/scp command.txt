@@ -1,1 +1,4 @@
 scp -i "C:/Users/mahes/Downloads/akki1.pem" "C:/Users/mahes/Desktop/online-examination-systen-in-php-master.zip" ubuntu@ec2-54-91-209-47.compute-1.amazonaws.com:/home/ubuntu/
+
+
+scp -i "/c/Users/mahes/Desktop/scenery-web.pem" -r "/c/Users/mahes/Downloads/sceneary-app-develop-v1.0.0/sceneary-app-develop-v1.0.0/build/web" ubuntu@1.112.158.162:/home/ubuntu/web
