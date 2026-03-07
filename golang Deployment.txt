@@ -1,0 +1,70 @@
+#make sure to install git for clone the code
+============================================
+apt install git -y
+
+#if installation fail?
+======================
+apt-get clean
+apt-get update
+apt-get upgrade -y
+
+#install go package
+===================
+sudo apt install -y golang
+
+#check the version
+==================
+go version
+
+#cd project Directory
+=====================
+cd <project>
+
+#Initialize Go Module (if project is new)
+=========================================
+go mod init project-name
+
+#This creates:
+==============
+go.mod
+
+#Download Dependencies
+======================
+If the project already has dependencies:
+
+go mod tidy
+
+#Build the Project
+==================
+go build
+
+If your main file is main.go:
+============================
+go build main.go
+
+Output example:
+===============
+myapp
+
+This creates a binary executable.
+=================================
+
+Project structure example:
+
+project/
+ ├── main.go
+ ├── go.mod
+ ├── go.sum
+ └── myapp   (compiled binary)
+
+After build:
+============
+
+./myapp
+
+Or run directly without building:
+
+go run main.go
+
+
+

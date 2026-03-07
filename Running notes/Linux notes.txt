@@ -129,3 +129,24 @@ reinstall the latest downloaded packages.
 
 curl ifconfig.me --> to print server public ip
 
+symlink vs hardlink
+-------------------
+
+symlink is a short cut for the original file. for symlink it creates new inode. if original file deleted symlink not get the data.
+
+hard link directly point out inode it doesn't care about original file. if deleted then also hard gets the data. because inode not deleted. if all files deleted related to inode then the inode also deleted.
+
+#To which user login into user server
+======================================
+
+w --> Show Currently Logged-in Users and Their IP
+
+who -a --> Show Active Sessions with IP
+
+last -i --> Check Recent Login History 
+
+sudo pkill -kill -u username --> Terminate session
+
+sudo ufw deny from <IP_ADDRESS> --> block IP
+
+
