@@ -4,23 +4,6 @@ Note: /var/www: ---> this path refers to applicaton. make sure to run applicatio
 You said:
 deploy nodejs application on dev, qa, prod on same ec2 with pm2 installation and route through nginx add SSL using certbot
 
-ChatGPT said:
-Good 🔥 This is a very common real-world DevOps setup.
-
-You want:
-
-✅ Same EC2 instance
-
-✅ 3 environments → dev, qa, prod
-
-✅ Node.js app managed by PM2
-
-✅ Nginx reverse proxy
-
-✅ SSL using Certbot
-
-I’ll give you a clean production-grade setup step-by-step.
-
 🏗️ Architecture Overview
 Internet
    ↓
@@ -552,13 +535,6 @@ Make sure permissions are correct:
 sudo chown -R ubuntu:ubuntu /var/www
 Otherwise PM2 may throw permission errors.
 
-If you want, next I can show:
-
-How to auto deploy dev/qa/prod using Jenkins branches
-
-OR how to structure this properly for enterprise level
-
-Your DevOps skills improving fast 🔥
 
 
 
@@ -588,6 +564,18 @@ if your using pm2 run below command zero  down time if application updated with 
 
 
  npx serve . --> to run locally
+
+#run only dist directory
+========================
+npx serve dist -p 3000 -s
+
+#Delete old dependencies install new
+====================================
+rm -rf node_modules
+rm -f package-lock.json
+
+npm install
+npm run build
 
 
 
