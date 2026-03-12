@@ -1,0 +1,13 @@
+NOTE: This docker script not for Production
+
+#Docker script Download
+=======================
+curl -fsSL https://get.docker.com -o get-docker.sh
+
+#run the Script
+===============
+sh get-docker.sh
+
+#test Docker installed or not
+=============================
+docker
