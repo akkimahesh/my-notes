@@ -1,0 +1,107 @@
+If the repo is **private**, GitHub will always require **authentication** 👍
+But you can clone **without using a Git token** by using other auth methods.
+
+Since you said you have **complete access**, use these options 👇
+
+---
+
+## ✅ **Method 1 — Clone using SSH key (Best way 🔥)**
+
+This is the standard DevOps way.
+
+### Step-1: Check SSH key
+
+```bash
+ls ~/.ssh
+```
+
+If not present → generate:
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+Press **Enter → Enter → Enter**
+
+---
+
+### Step-2: Copy public key
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+Copy the output.
+
+---
+
+### Step-3: Add key in GitHub
+
+👉 GitHub → Settings → SSH and GPG Keys → New SSH key → paste.
+
+---
+
+### Step-4: Clone repo using SSH URL
+
+Example:
+
+```bash
+git clone git@github.com:username/repository.git
+```
+
+✅ No token required
+✅ No password required
+✅ Works in CI/CD / servers
+
+---
+
+## ✅ **Method 2 — If repo already configured on your system**
+
+If you logged in earlier using credential helper:
+
+```bash
+git clone https://github.com/user/repo.git
+```
+
+It may work because **credentials are cached**.
+
+Check:
+
+```bash
+git config --global credential.helper
+```
+
+---
+
+## ✅ **Method 3 — Using Deploy Key (For servers / EC2)**
+
+Best for production servers.
+
+Steps:
+
+1. Generate SSH key in server
+2. Add **public key in repo → Deploy Keys**
+3. Clone using SSH
+
+This avoids personal account authentication 👍
+
+---
+
+## ✅ **Method 4 — Ask Admin to add you via Organization SSO**
+
+If company repo → sometimes login via browser session is enough.
+
+---
+
+## ⚠️ Important
+
+❌ Without **token / SSH / cached login / deploy key**
+➡️ **Private repo cannot be cloned** (Git security rule)
+
+---
+
+✅ **DevOps recommendation for you (since you work on EC2 deployments):**
+👉 Always use **SSH deploy keys** — safest + automation friendly 🚀
+
+---
+
