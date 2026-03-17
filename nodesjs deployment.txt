@@ -540,7 +540,7 @@ Otherwise PM2 may throw permission errors.
 
 
 git pull error comes like below
--------------------------------
+================================
 
 error: Your local changes to the following files would be overwritten:
 vendor/_reset_log.txt
@@ -549,6 +549,8 @@ Please commit your changes or stash them before you switch branches.
 use below commands:
 git stash 
 git pull
+
+git stash endhuku use chestham before pull the code, if you enter the command git pull it throws an error, like miru pull chestunna code lo merge conflicts unnayi so stash use cheyandi so, it downloads the new changes without merge.
 
 then, 
 pm2 list 

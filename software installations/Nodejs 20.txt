@@ -1,0 +1,13 @@
+#Install nodejs 20 on amazon
+============================
+sudo yum update -y
+curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+sudo yum install -y nodejs
+
+#Install nodejs 20 on ubuntu
+=============================
+sudo apt update -y
+sudo apt install -y curl
+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
