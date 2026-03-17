@@ -18,3 +18,9 @@
 4. keep desired 1, min 1, max 5 (important).
 
 5. if instance is working well which is created by ASG then delete the manual instance.
+
+Additional points
+=================
+1. we attach multiple target groups to single loadbalacer. 
+2. based on path loadbalancer routes to that target group.
+3. ASG we can multiple for each backend or frontend.
