@@ -1,4 +1,4 @@
-#download the tar file from official Doc
+#download the tar file from official Doc (port 9100)
 ========================================
 wget https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-amd64.tar.gz
 

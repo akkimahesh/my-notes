@@ -1,4 +1,4 @@
-#alart manager
+#alart manager (port 9093)
 ================
 wget https://github.com/prometheus/alertmanager/releases/download/v0.31.1/alertmanager-0.31.1.linux-amd64.tar.gz
 

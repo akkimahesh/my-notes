@@ -1,0 +1,95 @@
+Ahh 👍 this is because of **directory permission**, not file permission.
+
+Your file is inside **`/root` directory**.
+
+Even though file has group read permission,
+👉 **users cannot see/read it if they don’t have permission on the parent directory.**
+
+---
+
+## 🔥 Why akk1 group users cannot see the file
+
+In Linux:
+
+✅ To read a file → user must have permission on
+
+* the **file**
+* AND the **directory path**
+
+Now check `/root` permission:
+
+```bash
+ls -ld /root
+```
+
+Most likely output will be:
+
+```text
+drwx------ root root
+```
+
+Meaning:
+
+* Only **root** can access `/root`
+* No one else can enter → so file is invisible ❌
+
+---
+
+## ✅ Solutions (Best Practices)
+
+### ⭐ Solution 1 — Move file to shared directory (Recommended)
+
+Create a shared folder:
+
+```bash
+mkdir /shared
+chgrp akk1 /shared
+chmod 770 /shared
+```
+
+Move file:
+
+```bash
+mv /root/permission.txt /shared/
+```
+
+Now all akk1 group users can access 👍
+This is **real DevOps practice**.
+
+---
+
+### ⭐ Solution 2 — Give execute permission on `/root` (Not Recommended ⚠️)
+
+```bash
+chmod 750 /root
+```
+
+But this is **security risk**
+→ normally we NEVER give access to `/root`.
+
+---
+
+### ⭐ Solution 3 — Use ACL on directory (Safer than above but still uncommon)
+
+```bash
+setfacl -m g:akk1:x /root
+```
+
+This allows group to enter directory.
+
+---
+
+## 🚀 Important Linux Rule (Must Remember)
+
+👉 **To access file:**
+
+* Need `x` (execute) on directory
+* Need `r` on file
+
+Without directory execute → file not visible.
+
+---
+
+If you want, I can next explain with **real server diagram style**
+
+👉 how Linux checks permissions step-by-step (very important for interviews & DevOps).

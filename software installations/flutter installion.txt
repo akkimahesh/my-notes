@@ -1,0 +1,23 @@
+#update and install depencies
+==============================
+sudo apt update
+sudo apt install -y curl git unzip xz-utils zip libglu1-mesa
+
+
+#Download exact Flutter version
+================================
+cd /opt
+sudo git clone https://github.com/flutter/flutter.git
+cd flutter
+sudo git checkout 3.41.2
+
+
+#Set PATH
+==========
+echo 'export PATH="$PATH:/opt/flutter/bin"' >> ~/.bashrc
+source ~/.bashrc
+
+
+Verify version
+==============
+flutter --version

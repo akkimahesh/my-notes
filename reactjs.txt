@@ -1,2 +1,6 @@
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install nodejs -y
+
+#start react app with pm2
+=========================
+pm2 start npm --name "react app" --start

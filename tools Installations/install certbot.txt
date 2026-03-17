@@ -1,0 +1,27 @@
+apt update -y
+apt install certbot -y
+
+#for niginx 
+============
+certbot --nginx -d <domain-name> --register-unsafely-without-email
+
+#without nginx
+==============
+certbot certonly --standalone -d <domain-name> --register-unsafely-without-email
+
+
+#Auto Renewal Setup (Very Important)
+==========================================
+SSL expires every 90 days
+
+Test renewal:
+
+sudo certbot renew --dry-run
+
+#Add cron:
+==========
+sudo crontab -e
+
+#Add:
+=====
+0 3 * * * certbot renew --quiet
