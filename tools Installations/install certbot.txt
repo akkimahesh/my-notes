@@ -3,6 +3,7 @@ apt install certbot -y
 
 #for niginx 
 ============
+apt install python3-certbot-nginx -y #nginx plugin
 certbot --nginx -d <domain-name> --register-unsafely-without-email
 
 #without nginx

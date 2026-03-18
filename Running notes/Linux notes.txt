@@ -134,7 +134,7 @@ symlink vs hardlink
 
 symlink is a short cut for the original file. for symlink it creates new inode. if original file deleted symlink not get the data.
 
-hard link directly point out inode it doesn't care about original file. if deleted then also hard gets the data. because inode not deleted. if all files deleted related to inode then the inode also deleted.
+hard link directly point out inode it doesn't care about original file. if original file deleted then also hardlink gets the data. because inode not deleted. if all files deleted related to inode then the inode also deleted.
 
 #To which user login into user server
 ======================================
@@ -148,5 +148,28 @@ last -i --> Check Recent Login History
 sudo pkill -kill -u username --> Terminate session
 
 sudo ufw deny from <IP_ADDRESS> --> block IP
+
+
+%admin ALL=(ALL) NOPASSWORD:ALL --> when login as user it can asks for password if commands like useradd <username> even if you don't kept password for it. if you mention NOPASSWORD:ALL it doesn't ask password.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

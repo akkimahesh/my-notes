@@ -1,0 +1,66 @@
+Account creation (30days free)
+================
+cards:
+  Debit :
+    - master
+    - visa
+  credit card:
+    - any card
+
+* $200 for 30days
+* In free trail account 3 public ip's and 4 cpu's free per region.
+
+After creation of check the subscriptions in the search bar.
+
+Tenant ID = Account ID
+
+Entra ID formarly we known as azure active directory.
+
+Under Tenant ID we can create unlimited subscriptions. (dev, QA, prod)
+
+Azure subscriptions is equalent to aws Organisations, here all subscriptions under single Tenant ID. But aws have completely different account. but billing pay from root account. 
+
+Under subscriptions we can create upto 980 resource groups.
+
+under resource group we have the services like vnet, databases etc.
+
+every resource group have no same services based on project it will be changed.
+for example:
+
+Resource Group: RG-WebApp
+========================
+
+Inside services may be:
+Virtual Machine
+App Service
+Storage Account
+Load Balancer
+Public IP
+Virtual Network
+
+=> This RG is designed for web hosting
+
+Resource Group: RG-Database
+===========================
+
+Inside services may be:
+Azure SQL Database
+Backup Storage
+Private Endpoint
+Monitoring Service
+
+=> This RG is only for database layer
+
+#create RG
+==========
+1. search for resource group. Go to that console.
+2. choose the subscription that u want otherwise default.
+3. select the region.
+4. create the RG.
+
+#create vnet
+============
+1. choose the subscription and RG.
+2. given the name and region.
+3. No need to be select same region as RG.
+4. RG is only logical storage for services across all regions.
