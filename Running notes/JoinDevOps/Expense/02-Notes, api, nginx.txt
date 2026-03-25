@@ -50,8 +50,8 @@ Reverse Proxy
 4. Load balancing
 5. used for SSL/TLS/HTTPS termination
 
-include /etc/nginx/conf.d/*.conf;
-include /etc/nginx/default.d/*.conf; #without disturb main configuration
+include /etc/nginx/conf.d/*.conf; #without disturb main configuration
+include /etc/nginx/default.d/*.conf; 
 
 /etc/sudoers.d/
 
