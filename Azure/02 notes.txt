@@ -1,0 +1,7 @@
+Availability set --> within the same data centre we have high availability.
+we have 6 servers so that server make created in different racks. if one rack get effect then second rack will give service.
+
+
+update domain = planned activity
+================================
+we know situation when the servers restart, if paches will updates servers obvious restart right, instead of restart all at a time it makes as group. one by one groups will restarted without down the application.

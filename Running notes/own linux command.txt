@@ -40,3 +40,7 @@ Run mycmd from anywhere.
 
 This method is best for complex, shareable commands as it supports full scripting.
 
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile

@@ -1,0 +1,22 @@
+Step 1 — Installing and Configuring Elasticsearch
+=================================================
+curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+#update
+=======
+sudo apt update
+
+
+#installation
+==============
+sudo apt install elasticsearch
+
+sudo systemctl start elasticsearch
+
+sudo systemctl enable elasticsearch
+
+#test
+=====
+curl -X GET 'http://localhost:9200'

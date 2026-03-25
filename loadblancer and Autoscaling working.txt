@@ -23,4 +23,4 @@ Additional points
 =================
 1. we attach multiple target groups to single loadbalacer. 
 2. based on path loadbalancer routes to that target group.
-3. ASG we can multiple for each backend or frontend.
+3. ASG we can create multiple for each backend or frontend.

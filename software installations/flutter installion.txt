@@ -17,7 +17,17 @@ sudo git checkout 3.41.2
 echo 'export PATH="$PATH:/opt/flutter/bin"' >> ~/.bashrc
 source ~/.bashrc
 
+#for root user
+==============
+echo 'export PATH="$PATH:/opt/flutter/bin"' >> /root/.bashrc
+source /root/.bashrc
+
 
 Verify version
 ==============
 flutter --version
+
+
+If later you run Flutter as non-root user, you may get permission errors
+========================================================================
+sudo chown -R ubuntu:ubuntu /opt/flutter

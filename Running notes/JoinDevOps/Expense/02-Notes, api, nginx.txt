@@ -1,0 +1,149 @@
+/var/log -> logs location
+
+mysql -h 172.31.23.126 -uroot -pExpenseApp@1 < /app/schema/backend.sql
+
+telnet 172.31.23.126 3306 - To check connection established or not. telnet 172.31.23.126 3306 it check the connections to DB server.
+
+
+Application Deployment steps
+============================
+1. Installing programming runtime
+2. Create a directory and system user
+3. Download and unzip the code
+4. Install dependencies
+5. Create systemctl service
+6. Run DB scripts if required
+7. Start the application
+
+Nginx
+======
+popular http web server, reverse proxy
+Apache
+HTML, CSS and JS -> Web server
+
+configs -> /etc/nginx
+HTML -> /usr/share/nginx/html
+logs -> /var/log/nginx
+default page -> /usr/share/nginx/html/index.html
+
+Proxy (meaning)-> on behalf of someone
+
+Forward Proxy and Reverse Proxy
+
+Client and Server
+
+Mobile(Client) -> Netflix(Server)
+
+Forward Proxy
+==============
+1. hiding client identity
+2. sits in between client and server
+3. client aware
+4. VPN, content filtering, traffic monitoring
+5. Can be used as caching also.
+
+Reverse Proxy
+=============
+1. Hiding server identity
+2. Server Aware
+3. Security reasons and queue management
+4. Load balancing
+5. used for SSL/TLS/HTTPS termination
+
+include /etc/nginx/conf.d/*.conf;
+include /etc/nginx/default.d/*.conf; #without disturb main configuration
+
+/etc/sudoers.d/
+
+API -> Application programming Interface
+
+proxy_http_version 1.1;
+
+location /api/ { proxy_pass http://172.31.28.10:8080/; }
+
+location /health {
+  stub_status on;
+  access_log off;
+}
+
+gov database
+eenadu, tv9, manabadi, sakshi, etc.
+
+input -> Hall Ticket No.
+
+emacet API -> eamcet DB
+
+https://eamcet.ap.gov.in/api/results
+Request Format:
+
+{
+	"hallTicketNo": 123456789,
+	"dob": "01-01-1999"
+}
+
+Response Format:
+{
+	"name": "sivakumar",
+	"result": "pass",
+	"marks": 99.99
+}
+
+eenadu frontend -> emacet API -> eamcet DB
+
+enter hall ticket, dob
+submit -> https://eamcet.ap.gov.in/api/results
+
+http://3.85.111.189/static/media/3TierArch.0486e7150e53d305d1c2.png
+
+http://3.85.111.189/api/transaction
+
+{
+	amount: "200",
+	desc: "travel"
+}
+
+HTTP Methods
+============
+CRUD
+
+GET -> verb
+transactions -> Noun
+
+getTransactions
+
+http://3.85.111.189/api/transaction
+GET -> Verb
+
+http://3.85.111.189/api/transaction
+POST -> Creating Data
+
+http://3.85.111.189/api/transaction
+PUT -> UPDATE
+
+{
+	amount: "2000",
+	desc: "travel"
+}
+
+http://3.85.111.189/api/transaction
+DELETE
+
+Domain
+DNS -> Domain name system
+
+Name -> Mobile number
+humans -> names
+computers -> numbers
+
+DNS
+
+word = meaning
+
+facebook.com == 33.45.78.212
+
+ICANN -> Internet corporation for assigned names and numbers
+Non profit organisation
+Root servers
+TLD
+
+
