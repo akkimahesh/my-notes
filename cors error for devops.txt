@@ -1,0 +1,53 @@
+⚙️ DevOps Responsibility (Sometimes)
+
+DevOps handles CORS when it is configured in:
+
+1. Nginx
+add_header Access-Control-Allow-Origin *;
+add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+add_header Access-Control-Allow-Headers "Authorization, Content-Type";
+2. AWS Load Balancer
+3. CloudFront
+4. API Gateway
+5. Reverse Proxy
+
+When CORS is configured at infrastructure level, it's DevOps responsibility.
+
+✅ Step 3 — Add CORS Configuration
+
+Paste this:
+
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [
+            "Content-Type",
+            "Content-Disposition"
+        ],
+        "MaxAgeSeconds": 3000
+    }
+]
+🔒 Production Recommended (Better Version)
+
+Instead of * use your domain:
+
+[
+  {
+    "AllowedHeaders": ["*"],
+    "AllowedMethods": ["GET", "HEAD"],
+    "AllowedOrigins": [
+      "https://web.sceneary.in",
+      "https://*.cloudfront.net"
+    ],
+    "ExposeHeaders": []
+  }
+]
