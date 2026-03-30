@@ -236,13 +236,5 @@ Instead of the default execute-api URL.
 ✔ ACM certificate status = Issued
 ✔ Route 53 alias record created
 
----
 
-If you want, I can also format this as:
 
-* 📄 Interview-ready explanation
-* 📘 Documentation format
-* 📑 PDF-style deployment guide
-* 🔥 DevOps resume project explanation
-
-Tell me 😎

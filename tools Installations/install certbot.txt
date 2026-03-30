@@ -26,3 +26,20 @@ sudo crontab -e
 #Add:
 =====
 0 3 * * * certbot renew --quiet
+
+Renewal in Systemd Service
+--------------------------
+Create /etc/systemd/system/certbot-renew.service:
+
+text:
+-----
+
+[Unit]
+Description=Certbot Renewal
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/certbot renew --quiet --deploy-hook "systemctl reload nginx"
+
+
+
+Enable with "systemctl enable certbot-renew.timer—pairs" perfectly with systemd timers for cron-like renewals every 12 hours.

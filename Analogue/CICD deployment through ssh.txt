@@ -1,0 +1,46 @@
+#Generate ssh keys in root user
+===============================
+ssh-keygen -t id_ed25519 -C "root"
+
+cat id_ed25519.pub
+
+value add it in GitHub Deploy keys for pulling from GitHub without Token.
+
+#Add id_ed25519.pub value in authorized_keys
+========================================
+cat id_ed25519.pub >> authorized_keys
+
+#give permissions
+=================
+chmod 600 authorized_keys
+chmod 700 .ssh
+chmod 600 id_ed25519
+chmod 600 id_ed25519.pub
+
+#make sure to check branch to fetch the code
+===========================================
+if dev:- commands should be exactly below
+
+echo "Fetching latest code..."
+git fetch origin dev
+git reset --hard origin/dev
+git clean -fd
+
+#Establish connection from login to git 
+=======================================
+ssh-keygen -t id_ed25519 -C "local"
+
+cat id_ed25519.pub
+
+value add it in GitHub Deploy keys for push Dockerfiles from local GitHub.
+
+#Before Run the Pipeline once check the GitHub actions from local and remote server.
+===================================================================================
+ssh -T git@github.com
+
+
+
+
+
+
+
