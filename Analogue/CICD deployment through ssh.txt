@@ -38,7 +38,17 @@ value add it in GitHub Deploy keys for push Dockerfiles from local GitHub.
 ===================================================================================
 ssh -T git@github.com
 
+configure Only staging branch to pull code without username and password
+========================================================================
+git remote set-url origin git@github.com:ChiNnuKvt/sbj.git
 
+Now configure tracking only staging branch:
+===========================================
+git branch --set-upstream-to=origin/staging staging
+
+#verify last commit
+===================
+git branch -vv
 
 
 
