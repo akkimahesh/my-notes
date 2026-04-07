@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" version="29.6.6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36">
   <diagram name="Page-1" id="lJ1InqzBPPYBpGb368oP">
-    <mxGraphModel dx="1106" dy="697" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1094" dy="697" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -51,14 +51,27 @@
         <mxCell id="UHpWrwwEGYuvdTMT0rRE-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="User" vertex="1">
           <mxGeometry height="30" width="60" x="59" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="oAu9dZtzspeM-iSXGcmb-2" edge="1" parent="1" source="oAu9dZtzspeM-iSXGcmb-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="UHpWrwwEGYuvdTMT0rRE-11">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="YY8SIjAWp1pP61siVcPN-10" edge="1" parent="1" source="oAu9dZtzspeM-iSXGcmb-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640.125" y="310" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="oAu9dZtzspeM-iSXGcmb-1" parent="1" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.auto_scaling;fillColor=#F58534;gradientColor=none;" value="" vertex="1">
-          <mxGeometry height="76.5" width="79.5" x="590.25" y="360" as="geometry" />
+          <mxGeometry height="90" width="99.75" x="590.25" y="360" as="geometry" />
         </mxCell>
         <mxCell id="oAu9dZtzspeM-iSXGcmb-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="ASG" vertex="1">
-          <mxGeometry height="30" width="60" x="600" y="436.5" as="geometry" />
+          <mxGeometry height="30" width="60" x="609.75" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="YY8SIjAWp1pP61siVcPN-11" edge="1" parent="1" source="YY8SIjAWp1pP61siVcPN-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YY8SIjAWp1pP61siVcPN-8" parent="1" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.waf_web_application_firewall;" value="" vertex="1">
+          <mxGeometry height="93.35" width="106.32" x="406.84" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="YY8SIjAWp1pP61siVcPN-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="WAF" vertex="1">
+          <mxGeometry height="30" width="60" x="436.5" y="453.35" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

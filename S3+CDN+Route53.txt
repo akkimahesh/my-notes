@@ -20,3 +20,7 @@ step-3: 1. create CDN
 step-4: map CDN to route53
         create record and alias select cloudfront URL
  
+cloudfront - invalidations
+==========================
+/* --> delete all files in edge location
+/<pathname> --> delete particular path or file from edge locations.
