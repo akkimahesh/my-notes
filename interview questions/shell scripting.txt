@@ -1,0 +1,2 @@
+what is inode?
+inode is a memory location which stores information about file or directory. like metadata

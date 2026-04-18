@@ -1,11 +1,19 @@
+monolithic = Frontend + Backend
+
+microservices = frontend + backend ( here backend divided into separate individual modules )
+
 Docker
 ------
+AMI = OS + System packages + App run time + App code + App dependencies -> Instance/Server/VM -> AMI ID
+Docker Image = Bare minimum OS + System packages + App run time + App code + App dependencies -> Container
+
 application is working in QA but not working in Prod why?
-A) main cause here is changes the configuration in QA and Prod. in QA you we use one type of OS and other production we use another type or another version of OS. this is main cause here. So, when we use Docker images we overcome this issue. because image contains same OS in QA as well as PROD. 
+A) main cause here is changes the configuration in QA and Prod. in QA we use different OS version and in production we use another version of OS. this is main cause here. So, when we use Docker images we overcome this issue. because image contains same OS in QA as well as PROD. 
 
 Advantages
 ----------
-in Autoscaling it takes the time to create another VM. but coming to container it takes less time.
+1. no resource allocation, docker can takes the resource dynamically from the instance.
+2. in Autoscaling it takes the time to create another VM. but coming to container it takes less time.
 
 docker run nginx VS docker -d run nginx
 ---------------------------------------
