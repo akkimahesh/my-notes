@@ -1,0 +1,27 @@
+To check the container OS
+--------------------------
+inside the container cat /etc/*release
+
+docker exec -it <container_name> bash ---> To login into existing container.
+
+docker inspect <container_id> or <container_name> ----> it prints information about the conatainer in that we able to see container ip address and many more.
+
+Declarative means--> what ever you write you will get it.
+
+docker build -t <url>/<username>/<imagename:latest>
+
+docker tag from:v1 joindevops/from:v1--> rename the image.
+
+docker stats <container_name> --> to see of that particular time how cpu and memory usage of the container.
+
+docker system df --> used to see the disk usage by docker (like docker images)
+
+docker login / docker logout ----> authenticate and exit.
+
+docker push <username>/<image>:latest ---> to push image into only docker registry.
+
+for ECS docker push 123456789012.dkr.ecr.ap-south-1.amazonaws.com/scutiarts:latest
+
+for dockerfile no need to add pm2 for nodejs application. docker can take care of process management.
+
+note: use only one CMD instruction in Dockerfile. because if use multiple CMD instructions docker pick the last one.

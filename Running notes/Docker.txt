@@ -26,22 +26,6 @@ docker -d -p 8080:80 nginx
 1. here 8080 is the host port number. it means VM port number. and 80 means container port number.
 2. when hit <ip_address>:8080 there request come to VM first and VM redirect to container.
 
-To check the container OS
---------------------------
-cat /etc/*release
-
-docker exec -it <container_name> bash ---> To login into existing container.
-
-docker inspect <container_id> or <container_name> ----> it prints information about the conatainer in that we able to see container ip address and many more.
-
-Declarative means--> what ever you write you will get it.
-
-docker build -t <url>/<username>/<imagename:latest>
-
-docker tag from:v1 joindevops/from:v1--> rename the image.
-
-docker stats <container_name> --> to see of that particular time how cpu and memory usage of the container.
-
 RUN vs CMD
 ----------
 RUN instruction runs while image building. Here CMD instruction will not work.
@@ -230,6 +214,13 @@ RUN yum install nginx \
     yum install nodejs 
 
 Docker Hub also saved images like layers. if push another image to docker Hub if that image contains same data of first 4 lines of already existed image so, here remaining added on top of already existed layers.
+
+Autoscaling for docker container
+================================
+1. using Kubernetes
+2. using docker swarm (most of the companies not using this)
+3. using Amazon ECS
+note: using docker compose scaling not possible, we can manually run docker-compose up scale web=5.
 
 
 
