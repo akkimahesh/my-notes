@@ -2,6 +2,22 @@ monolithic = Frontend + Backend
 
 microservices = frontend + backend ( here backend divided into separate individual modules )
 
+NACL vs SG
+==========
+1. Nacl is a stateless, it allows traffic and send request to that address if outbound is configured.
+2. This is for subnet level configuration.
+3. here we can allow or deny the traffic
+4. at source we configure subnet range Ip address like this 11.0.0.0/24
+ ( we have give like this also 11.0.0.0/32, but problem while Autoscaling, in autoscaling changing the ips so, new ips not allowed )
+
+SG
+===
+1. security group is stateful, it stores the clint ip address when traffic comes.
+2. it has only allow traffic but not deny.
+
+
+32768 - 65535 ephemeral port range (temporary)
+ 
 Docker
 ------
 AMI = OS + System packages + App run time + App code + App dependencies -> Instance/Server/VM -> AMI ID
