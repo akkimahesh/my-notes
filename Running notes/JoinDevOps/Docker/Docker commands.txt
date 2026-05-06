@@ -25,3 +25,17 @@ for ECS docker push 123456789012.dkr.ecr.ap-south-1.amazonaws.com/scutiarts:late
 for dockerfile no need to add pm2 for nodejs application. docker can take care of process management.
 
 note: use only one CMD instruction in Dockerfile. because if use multiple CMD instructions docker pick the last one.
+
+docker logs <container_name> --tail -n 200 --> to see last 200 lines of docker logs
+
+docker logs -f <container_name> --> follow the logs of container in live
+
+docker system prune -a ---> to remove unused images, container, and build cache at once
+
+docker system prune -f --> force remove without prompt
+
+LABEL
+=====
+docker image ls --filter "label=version=1.0"
+
+docker ps --filter "label=env=production"
