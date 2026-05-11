@@ -1,0 +1,18 @@
+mongod images
+=============
+
+mongodb provided direct mongodb image in Dockerhub.
+
+if you run mongodb container with some data, you need to keep that *.js file in this directory /docker-entrypoint-initdb.d/*.js.
+then automatically scripts runs inside the container. and data is loaded as per the scrip.
+
+catalogue 
+=========
+catalogue is depended on mongodb, so we need configure mongodb information in catalogue container as env variables.    
+
+even through we give mongodb information catalogue container! they both not communicate eachother. because they using default bridge network.
+
+docker default bridge network have no capability for containers talk eachother.
+
+so we created one custom bridge network and attach that two containers.
+

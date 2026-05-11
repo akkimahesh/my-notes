@@ -114,7 +114,14 @@ FROM almaalinux:${version} #FROM almaalinux:${version:-8} if users forgot to giv
 Note:- if you give ARG instruction before FROM, so it can not be work after FROM instruction.
 
 ONBUILD instruction tells that if you want to use this image! you need something. It doesn't run while build time.
-ONBUILD ADD index.html /usr/share/nginx/html/  #here without index.html file at user he doesn't use this image. 
+ONBUILD ADD index.html /usr/share/nginx/html/  #here without index.html file at user! he doesn't use this image. 
+ONBUILD Scenario:-
+=================
+create organisation image.
+send to docker hub.
+someone takes your image as base.
+if they want to your image. they need some conitions. (condition it means they need some files)
+
 
 docker run -d --name mongodb mongodb:v1 #to run the container (create+start)
 
