@@ -1,0 +1,96 @@
+1. Extend partition
+2. Resize LVM physical volume
+3. Extend `/var`
+4. Grow filesystem
+
+
+# Step 1 — Install growpart
+
+Run:
+
+bash
+yum install -y cloud-utils-growpart
+
+
+
+# Step 2 — Extend partition
+
+Run:
+
+bash
+growpart /dev/nvme0n1 4
+
+
+Expected output similar to:
+
+bash
+CHANGED: partition=4 start=...
+
+
+
+# Step 3 — Resize LVM Physical Volume
+
+Run:
+
+bash
+pvresize /dev/nvme0n1p4
+
+
+
+# Step 4 — Verify free space available
+
+Run:
+
+bash
+vgdisplay
+
+
+Now you should see something like:
+
+bash
+Free  PE / Size       5000 / 20.00 GiB
+
+
+
+# Step 5 — Extend `/var`
+
+Recommended:
+
+bash
+lvextend -L +10G /dev/RootVG/varVol
+
+
+
+# Step 6 — Grow filesystem
+
+Amazon Linux/RHEL usually uses XFS.
+
+Run:
+
+bash
+xfs_growfs /var
+
+
+
+# Step 7 — Verify
+
+Run:
+
+bash
+df -h
+
+
+You should now see something like:
+
+bash
+/var   12G
+
+
+
+# Then rebuild Docker image
+
+bash
+docker build -t mongodb .
+
+
+Your Mongo image build should work now.
