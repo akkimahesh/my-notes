@@ -1,0 +1,69 @@
+#Ubuntu
+
+sudo apt install gpg -y
+
+curl https://dl.k6.io/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/k6-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+
+sudo apt update
+sudo apt install k6
+
+
+script for only access the site
+===============================
+
+// loadtest.js
+
+import http from 'k6/http';
+
+export const options = {
+  vus: 100,
+  duration: '30s',
+};
+
+export default function () {
+  http.get('https://yourdomain.com/api/health');
+}
+
+#command
+k6 run loadtest.js
+
+#script for access and login
+============================
+
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export const options = {
+  vus: 100,
+  duration: '1m',
+};
+
+export default function () {
+  const payload = JSON.stringify({
+    email: 'admin@gmail.com',
+    password: 'Admin@123',
+  });
+
+  const params = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    timeout: '60s',
+  };
+
+  const res = http.post(
+    'https://YOUR_API/api/v1/auth/login',
+    payload,
+    params
+  );
+
+  console.log(`Status: ${res.status}`);
+
+  check(res, {
+    'status is 200': (r) => r.status === 200,
+  });
+
+  sleep(1);
+}
