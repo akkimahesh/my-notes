@@ -34,6 +34,8 @@ docker system prune -a ---> to remove unused images, container, and build cache 
 
 docker system prune -f --> force remove without prompt
 
+docker compose push #push all images to docker hub which is created by docker compose.
+
 LABEL
 =====
 docker image ls --filter "label=version=1.0"

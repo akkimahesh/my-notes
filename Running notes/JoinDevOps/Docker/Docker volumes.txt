@@ -1,0 +1,16 @@
+Docker Volumes
+==============
+Docker volumes are used to persist the data. Even container terminated data will be safe in the host machine.
+
+unnamed volumes:
+managed by us, here we directly mount the host directory to container directory. whatever directory you want you can use it as volume.
+
+named volumes:
+This is completely managed by Docker itself. if you created volume using Docker commands that can automatically stored inside the /var/lib/docker/volumes.
+
+#note: named volumes is efficient because docker can managed, and also we just mount the volume to container, but in unnmaed volume we have give entire path of the host.
+
+example:
+docker run -d -p 80:80 -v nginx:/usr/share/nginx/html nginx:latest
+
+here inside nginx/ all files can access comtainer mount path. 
