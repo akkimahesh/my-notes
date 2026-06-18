@@ -1,0 +1,5 @@
+win+R
+
+then enter
+==========
+netplwiz
