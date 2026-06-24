@@ -22,7 +22,8 @@ kubectl get pod <pod-name> -o wide
 kubectl get pod <pod-name> -n <namespace-name> -o wide
 
 # Login to a specific container in a multi-container Pod
-kubectl exec -it <pod-name> -c <container-name> -- bash
+kubectl exec -it <pod-name> -c <container-name> -- bash (default namespace)
+kubectl exec -it multi-container -n roboshop -c nginx -- bash (custom namespace)
 
 # Example
 kubectl exec -it multi-container -c nginx -- bash
