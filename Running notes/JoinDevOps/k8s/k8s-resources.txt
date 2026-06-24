@@ -1,0 +1,42 @@
+k8s
+===
+workstation--> awscli, eksctl, kubectl
+
+namespace
+================
+namespace is a isolated space inside the cluster, we can configure project related resources into it. we can easily manage multiple projects without any confusion.
+
+kubectl get ns --> get available namespaces
+
+pod
+=====
+pod is smallest deployable unit in kubernetes. a pod can have multiple containers in it. containers inside pod share same network and storage.
+
+points:
+#inside pod containers share same network and storage.
+
+# Display Pod details, including Pod IP and Node information (default namespace)
+kubectl get pod <pod-name> -o wide
+
+# Display Pod details, including Pod IP and Node information (specific namespace)
+kubectl get pod <pod-name> -n <namespace-name> -o wide
+
+# Login to a specific container in a multi-container Pod
+kubectl exec -it <pod-name> -c <container-name> -- bash
+
+# Example
+kubectl exec -it multi-container -c nginx -- bash
+
+# Login to a Pod that contains only a single container (specific namespace)
+kubectl exec -it <pod-name> -n <namespace-name> -- bash
+
+# Example
+kubectl exec -it my-pod -n dev -- bash
+
+Why inside pod have multiple containers?
+Because one  main container is busy with serving content to users...another container takes logs of that container and push it to ELK.
+
+warn:
+don't add multiple containers in single pod if they are independent. [like frontend, database]
+
+
