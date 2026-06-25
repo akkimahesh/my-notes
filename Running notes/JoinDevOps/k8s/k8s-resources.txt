@@ -41,3 +41,21 @@ warn:
 don't add multiple containers in single pod if they are independent. [like frontend, database]
 
 
+labels:
+Labels are used to provide additional metadata for Kubernetes resources. They help identify, organize, and group resources, and can be used as selectors to associate resources with one another. For example, a Pod can use label selectors to reference and interact with a ConfigMap or other related resources.
+
+annotations:
+annotations are also like label, but here we can attach external resources out of kuberbernets like, Jenkins api address
+
+resources:
+using resources field we can limit the resources utilizations inside the node. request and limit resources.
+
+env:
+env is a key:value data to store environment variables inside the pod. and we use whenever we want.
+
+configmap:
+configmap also like env but here we can store more key:value data to looks good pod manifest and if any change in variables without disturbing pod manifest we can edit configmap. using configmap label or metadata we can attach to pod.
+
+
+
+
