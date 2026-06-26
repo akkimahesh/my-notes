@@ -54,7 +54,30 @@ env:
 env is a key:value data to store environment variables inside the pod. and we use whenever we want.
 
 configmap:
-configmap also like env but here we can store more key:value data to looks good pod manifest and if any change in variables without disturbing pod manifest we can edit configmap. using configmap label or metadata we can attach to pod.
+configmap also like env but here we can store more key:value data which is not sensitive without disturbing pod manifest we can edit configmap if any changes to be occur. using configmap label or metadata we can attach to pod.
+
+secrets:
+secrets are used to store the sensitive information but it stores base64 format which is decodes easily. most of the time secrets used for api not for critical databases credentials, we store database credentials in secrets manager.
+
+service:
+pod1 -> pod2
+catalogue -> mongodb
+if we want pod to pod communication, ip address of pods are not useful since they are ephemeral. we can use k8s service to acheive
+1. pod to pod communication through DNS, service name works as DNS here
+2. load balancing
+
+cart -> catalogue
+
+pod1 -> service -> pod2, pod3, pod4
+
+1. ClusterIP
+2. NodePort
+3. LoadBalancer
+
+service ip: 10.100.10.134  #clusterIP
+endpoints(pods): 192.168.5.23:80
+
+svc-test -> service -> labels
 
 
 
