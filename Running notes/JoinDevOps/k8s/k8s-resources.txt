@@ -77,8 +77,22 @@ pod1 -> service -> pod2, pod3, pod4
 service ip: 10.100.10.134  #clusterIP
 endpoints(pods): 192.168.5.23:80
 
-svc-test -> service -> labels
+svc-test -> service -> labels(pod)
 
+clusterIP:
+clusterIP is only for internal Kubernetes cluster, not accessed by outside.
 
+service(clusterIP) -> pod
+
+NodePort:
+NodePort opens random port to nodes within range 30000-32767. Because to prevent comflicting services inside cluster. 
+Anyone who comes to Gate 30080 should be sent to Room 80
+
+user->nodeport->clusterIp->pod(app)
+
+LB:
+LoadBalancer generates one DNS, instead of giving ip address to public we give loadbalancer DNS for security purpose, we can archieve this only in cloud providers.
+
+user->LB->nodeport->clusterIp->pod(app)
 
 
