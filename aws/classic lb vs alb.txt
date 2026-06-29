@@ -1,0 +1,16 @@
+classic lb:
+the classic lb routes request to single application. doesn't care about url request it serves same applicaton.
+Example:
+server-1--
+server-2  |--same application
+server-3--
+
+ALB:
+application loadbalancer is intelligent and security guard. it routes the request multiple application/services.
+
+we have example.com
+
+example.com/products -> server-1
+example.com/orders -> server-2
+
+but classic lb not have this feature.
