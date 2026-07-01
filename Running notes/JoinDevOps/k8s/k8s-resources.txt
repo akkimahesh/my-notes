@@ -95,4 +95,25 @@ LoadBalancer generates one DNS, instead of giving ip address to public we give l
 
 user->LB->nodeport->clusterIp->pod(app)
 
+replicaset:
+if you want to create multiple pods. what you do..? we maintain separate yml file for each pod like nginx-a, nginx-2... this is not efficient way right..?
+instead of that we use replicaset to archieve that, using replicaset we got desired number of pods, if any pod got terminated, or stopped with no reason it creats new same pod again.
+the main replicaset job is to keep running desired number of pods. and saves the pod information for rollback.
 
+deploymentset but commonly called as deployment:
+deployment used to rollback to previous version if any abnormal behaviour of current version. Easy to shift another version of application.
+
+scenario:
+v1 is running later v2 is implemented easily update that, without any downtime. if v2 has some issues then rollout to v1 easily.
+
+deployment->replicaset->pod
+
+if you create deployment automatically you're creating replicaset and pod also.
+
+deployment commands:
+
+kubectl rollout history deployment/nginx-deployment -n roboshop 
+
+kubectl rollout undo deployment/nginx-deployment --to-revision=4 -n roboshop
+
+kubectl describe deployment nginx-deployment -n roboshop
