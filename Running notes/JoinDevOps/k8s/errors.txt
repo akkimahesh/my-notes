@@ -1,0 +1,17 @@
+1. for every pod liveness, readiness and startup probe is not same.
+
+readiness:
+application is start and functionalities is working or not..
+
+liveness:
+application is providing respose or not.
+
+OOMkilled:
+resouces not sufficient
+
+crashloopbackoff:
+image pulled but not working
+
+imagepullbackoff:
+image is not available to pull
+

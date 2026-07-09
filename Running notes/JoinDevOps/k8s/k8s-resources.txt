@@ -118,5 +118,7 @@ kubectl rollout undo deployment/nginx-deployment --to-revision=4 -n roboshop
 
 kubectl describe deployment nginx-deployment -n roboshop
 
+kubectl rollout restart deployment frontend -n roboshop #restart pod
+
 #login into pod that created by Deployment
 kubectl exec -it nginx-deployment-66cb7d8dd9-5fxjr -n roboshop -- sh
