@@ -15,3 +15,5 @@ image pulled but not working
 imagepullbackoff:
 image is not available to pull
 
+update configmap nginx.conf in yml and update the nginx.conf file in repo also, then only changes reflected.
+
