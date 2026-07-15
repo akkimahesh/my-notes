@@ -17,3 +17,5 @@ image is not available to pull
 
 update configmap nginx.conf in yml and update the nginx.conf file in repo also, then only changes reflected.
 
+if you change configmap in current existing manifest and then apply kubectl apply -f manifest.yaml only here change configmap changes not container changes, you will restart deployment or delete pod it will create automatically.
+
