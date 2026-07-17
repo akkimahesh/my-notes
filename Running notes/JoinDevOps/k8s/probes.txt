@@ -1,0 +1,50 @@
+1. for every pod liveness, readiness and startup probe is not same.
+
+starup probe:
+application is started?
+note: until startup probe succeed readiness and liveness not start...
+
+readiness:
+application is start and functionalities is working or not..
+
+liveness:
+application is providing respose or not.
+
+another example:
+Startup Probe → "Has the application finished starting?"
+Readiness Probe → "Can the application receive traffic?"
+Liveness Probe → "Is the application still alive?"
+
+real life example:
+starup probe:
+bike is started?
+
+readiness:
+bike is started but it is able to move?
+
+liveness:
+bike is started and also it able move, but currently it is moved or stoped?
+
+example:
+=======
+startupProbe:
+  httpGet:
+    path: /health/startup
+    port: 8080
+  periodSeconds: 10
+  failureThreshold: 12
+
+meaning:-
+Check every 10 seconds
+
+12 failures allowed
+
+12 × 10 = 120 seconds
+
+Application gets 2 minutes to start.
+
+
+
+
+
+
