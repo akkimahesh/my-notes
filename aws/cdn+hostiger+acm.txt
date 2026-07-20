@@ -1,0 +1,492 @@
+# AWS ACM + CloudFront + Hostinger DNS Complete Notes
+
+## Scenario
+
+You have:
+
+* Domain: `xrdashboard.com` (Hostinger)
+* Custom CDN Domain: `cdn.xrdashboard.com`
+* CDN: AWS CloudFront
+* Origin: Amazon S3
+* SSL: AWS Certificate Manager (ACM)
+
+Architecture:
+
+```text
+User
+   │
+   ▼
+https://cdn.xrdashboard.com
+   │
+CloudFront
+   │
+Origin Access Control (OAC)
+   │
+Private S3 Bucket
+```
+
+---
+
+# Step 1: Create CloudFront Distribution
+
+Go to
+
+```
+AWS Console
+→ CloudFront
+→ Create Distribution
+```
+
+### Origin
+
+```
+Origin Type:
+Amazon S3
+
+Origin:
+Select your S3 bucket
+```
+
+### Security
+
+Use
+
+```
+Origin Access Control (OAC)
+```
+
+Do NOT make the bucket public.
+
+### Viewer Protocol Policy
+
+```
+Redirect HTTP to HTTPS
+```
+
+Create the distribution.
+
+Example CloudFront domain:
+
+```
+d2bjlkkw60g6rj.cloudfront.net
+```
+
+---
+
+# Step 2: Create AWS ACM Certificate
+
+**Important**
+
+CloudFront accepts certificates **only from**
+
+```
+US East (N. Virginia)
+us-east-1
+```
+
+Even if your S3 bucket is in another region.
+
+Go to
+
+```
+AWS Certificate Manager
+```
+
+Select Region
+
+```
+US East (N. Virginia)
+```
+
+Click
+
+```
+Request Certificate
+```
+
+Choose
+
+```
+Public Certificate
+```
+
+Enter
+
+```
+cdn.xrdashboard.com
+```
+
+Validation
+
+```
+DNS Validation
+```
+
+Key Algorithm
+
+```
+RSA 2048
+```
+
+Click
+
+```
+Request
+```
+
+---
+
+# Step 3: ACM Generates Validation Records
+
+AWS provides something like
+
+```
+Domain
+
+cdn.xrdashboard.com
+
+CNAME Name
+
+_805c3b232ffc231727ac3b3aacaa700a.cdn.xrdashboard.com
+
+CNAME Value
+
+_37c079fdb5753a3fef8b06cd39030aee.jkddzztszm.acm-validations.aws
+```
+
+Do NOT modify these values.
+
+---
+
+# Step 4: Configure Hostinger DNS
+
+Open
+
+```
+Hostinger
+→ Domains
+→ xrdashboard.com
+→ DNS Zone
+```
+
+---
+
+## Record 1
+
+### CloudFront Routing
+
+| Type  | Name | Points To                     |
+| ----- | ---- | ----------------------------- |
+| CNAME | cdn  | d2bjlkkw60g6rj.cloudfront.net |
+
+This makes
+
+```
+cdn.xrdashboard.com
+```
+
+point to CloudFront.
+
+---
+
+## Record 2
+
+### ACM Validation
+
+AWS gives
+
+```
+Name
+
+_805c3b232ffc231727ac3b3aacaa700a.cdn.xrdashboard.com
+```
+
+Hostinger automatically appends
+
+```
+.xrdashboard.com
+```
+
+Therefore enter only
+
+```
+_805c3b232ffc231727ac3b3aacaa700a.cdn
+```
+
+Target
+
+```
+_37c079fdb5753a3fef8b06cd39030aee.jkddzztszm.acm-validations.aws
+```
+
+Result
+
+| Type  | Name                                  | Points To                                                        |
+| ----- | ------------------------------------- | ---------------------------------------------------------------- |
+| CNAME | _805c3b232ffc231727ac3b3aacaa700a.cdn | _37c079fdb5753a3fef8b06cd39030aee.jkddzztszm.acm-validations.aws |
+
+---
+
+# Step 5: CAA Records
+
+This was the issue in your setup.
+
+Hostinger already had
+
+```
+CAA issue letsencrypt.org
+
+CAA issue sectigo.com
+
+CAA issue digicert.com
+
+CAA issue globalsign.com
+
+CAA issue comodoca.com
+
+CAA issue pki.goog
+```
+
+AWS ACM could NOT issue certificates.
+
+AWS returned
+
+```
+Certificate Authority Authorization (CAA) Error
+```
+
+---
+
+## Required CAA Records
+
+Hostinger Support added
+
+```
+CAA 0 issue "amazon.com"
+
+CAA 0 issuewild "amazon.com"
+
+CAA 0 issue "amazontrust.com"
+
+CAA 0 issuewild "amazontrust.com"
+```
+
+After propagation
+
+AWS ACM successfully issued the certificate.
+
+---
+
+# Step 6: Verify DNS
+
+### Verify CAA
+
+```bash
+nslookup -type=CAA xrdashboard.com 8.8.8.8
+```
+
+Expected
+
+```
+issue "amazon.com"
+
+issuewild "amazon.com"
+
+issue "amazontrust.com"
+
+issuewild "amazontrust.com"
+```
+
+---
+
+### Verify ACM Validation Record
+
+```bash
+nslookup -type=CNAME _805c3b232ffc231727ac3b3aacaa700a.cdn.xrdashboard.com 8.8.8.8
+```
+
+Expected
+
+```
+canonical name =
+_37c079fdb5753a3fef8b06cd39030aee.jkddzztszm.acm-validations.aws
+```
+
+---
+
+# Step 7: Wait for ACM
+
+Status changes
+
+```
+Pending Validation
+            ↓
+Issued
+```
+
+If status becomes
+
+```
+Failed
+```
+
+Delete the failed certificate.
+
+Fix DNS.
+
+Create a NEW certificate.
+
+Never reuse failed certificates.
+
+---
+
+# Step 8: Attach Certificate to CloudFront
+
+Go to
+
+```
+CloudFront
+
+Distribution
+
+Settings
+```
+
+Alternate Domain Name
+
+```
+cdn.xrdashboard.com
+```
+
+Choose
+
+```
+Custom SSL Certificate
+
+Select ACM Certificate
+```
+
+Save
+
+Wait for deployment.
+
+---
+
+# Step 9: Test
+
+Open
+
+```
+https://cdn.xrdashboard.com
+```
+
+Verify
+
+* HTTPS works
+* Valid SSL
+* Files served from CloudFront
+
+---
+
+# Important Notes
+
+### ACM Region
+
+Always
+
+```
+us-east-1
+```
+
+for CloudFront.
+
+---
+
+### Validation Method
+
+Always use
+
+```
+DNS Validation
+```
+
+Never Email Validation for production.
+
+---
+
+### Hostinger DNS
+
+Create TWO CNAME records.
+
+### Routing
+
+```
+cdn
+↓
+
+d2bjlkkw60g6rj.cloudfront.net
+```
+
+### Validation
+
+```
+_805c3b232ffc231727ac3b3aacaa700a.cdn
+↓
+
+_37c079fdb5753a3fef8b06cd39030aee.jkddzztszm.acm-validations.aws
+```
+
+---
+
+### CAA Error Solution
+
+If ACM shows
+
+```
+Certificate Authority Authorization (CAA) Error
+```
+
+Check
+
+```bash
+nslookup -type=CAA yourdomain.com 8.8.8.8
+```
+
+If Amazon entries are missing, ask your DNS provider to allow AWS ACM by adding CAA records for Amazon Trust Services. Wait for DNS propagation before requesting a new certificate.
+
+---
+
+# Complete Flow
+
+```text
+Request ACM Certificate
+        │
+        ▼
+AWS Generates Validation CNAME
+        │
+        ▼
+Add Validation CNAME in Hostinger
+        │
+        ▼
+Verify CAA Records Allow Amazon Trust Services
+        │
+        ▼
+DNS Propagation
+        │
+        ▼
+Certificate Status = Issued
+        │
+        ▼
+Attach Certificate to CloudFront
+        │
+        ▼
+Add Alternate Domain Name
+        │
+        ▼
+CloudFront Deploys
+        │
+        ▼
+https://cdn.xrdashboard.com works with HTTPS
+```
+
+These notes capture the complete process you followed, including the real-world CAA issue and its resolution, making them a useful reference for future CloudFront + ACM + Hostinger deployments.
