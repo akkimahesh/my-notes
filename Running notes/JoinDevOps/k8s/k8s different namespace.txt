@@ -1,0 +1,18 @@
+By default, all Pods in a Kubernetes cluster can communicate with each other, even if they are in different namespaces, as long as there are no NetworkPolicy rules blocking traffic.
+
+When can't Pods communicate?
+If a NetworkPolicy is applied, communication can be restricted.
+
+For example:
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+  namespace: backend
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+
+Now Pods in other namespaces cannot reach Pods in the backend namespace unless another NetworkPolicy explicitly allows it.
