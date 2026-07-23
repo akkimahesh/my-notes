@@ -1,0 +1,154 @@
+
+Step 2: Sign in to AWS Console
+
+Visit:
+
+https://console.aws.amazon.com/
+
+Log in as the root user.
+
+Step 3: Choose the AWS Region
+
+Select the region where you want to use Textract (top-right corner).
+
+For example:
+
+US East (N. Virginia)
+US West (Oregon)
+Asia Pacific (Mumbai)
+
+The region you choose should match the region your application uses.
+
+Step 4: Create an S3 Bucket
+Search for S3.
+Click Create bucket.
+Enter a unique bucket name, for example:
+company-document-storage
+
+Choose the same region.
+Leave the default settings unless you have specific requirements.
+Click Create bucket.
+Step 5: Create an IAM Policy
+Search for IAM.
+Open Policies.
+Click Create policy.
+Choose the JSON tab.
+Paste the following policy (replace the bucket name):
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "TextractOCR",
+      "Effect": "Allow",
+      "Action": [
+        "textract:DetectDocumentText"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "S3Access",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::company-document-storage",
+        "arn:aws:s3:::company-document-storage/*"
+      ]
+    }
+  ]
+}
+
+Click Next.
+Give it a name such as:
+TextractOCRPolicy
+
+Click Create policy.
+Step 6: Create an IAM User
+In IAM, select Users.
+Click Create user.
+Enter a username, for example:
+textract-developer
+
+Click Next.
+Step 7: Grant Permissions
+Select Attach policies directly.
+Search for:
+TextractOCRPolicy
+
+Check the box next to it.
+Click Next.
+Click Create user.
+Step 8: Create Access Keys
+Open the newly created user.
+Go to the Security credentials tab.
+Under Access keys, click Create access key.
+Choose Application running outside AWS (or the option that best matches your use case).
+Confirm any prompts.
+Click Create access key.
+
+AWS will display:
+
+Access Key ID
+
+Secret Access Key
+
+
+Important: The Secret Access Key is shown only once. Download the CSV file or copy it immediately.
+
+Step 9: Share with the Developer
+
+Provide the developer with:
+
+Access Key ID
+Secret Access Key
+AWS Region (for example, ap-south-1)
+S3 Bucket Name (for example, company-document-storage)
+
+Example:
+
+AWS Region:
+ap-south-1
+
+Bucket:
+company-document-storage
+
+Access Key ID:
+AKIA...
+
+Secret Access Key:
+xxxxxxxxxxxxxxxx
+
+
+Share these credentials securely (for example, through a password manager or a secure secrets-sharing service), not via plain email or chat.
+
+Step 10: Developer Configuration
+
+The developer can configure the AWS SDK using environment variables:
+
+export AWS_ACCESS_KEY_ID=AKIA...
+export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxx
+export AWS_REGION=ap-south-1
+
+
+Or in Python:
+
+import boto3
+
+textract = boto3.client(
+    "textract",
+    region_name="ap-south-1",
+    aws_access_key_id="AKIA...",
+    aws_secret_access_key="xxxxxxxxxxxxxxxx"
+)
+
+Security Recommendations
+Do not use the AWS root account for applications.
+Create a dedicated IAM user (or, for production on AWS, prefer IAM roles instead of long-term access keys).
+Grant only the minimum permissions needed (such as textract:DetectDocumentText and access to the specific S3 bucket).
+Rotate access keys periodically and delete them if they are no longer needed.
+Store credentials in a secrets manager or environment variables rather than hardcoding them into source code.
+
+Following these steps gives your developer everything needed to integrate DetectDocumentText while keeping permissions limited to the required resources.
