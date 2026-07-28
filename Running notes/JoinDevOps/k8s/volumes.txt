@@ -1,0 +1,11 @@
+emptyDir: (emphemral volumes)
+
+emptyDir is a type here pods can share same volume. Both containers mounted to same volume, one is generating logs another one read that send to ELK.
+
+daemonSet:
+
+when we run Daemonset it automatically runs in every eligible node. it is mounted to hostpath, Responsible for read node logs (log collection, monitoring, and networking) and send to ELK.
+
+
+
+
