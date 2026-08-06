@@ -314,3 +314,159 @@ pg_isready \
 * Start Ubuntu (`wsl -d Ubuntu`) and ensure the `cron` service is running after a Windows reboot if you rely on cron for scheduling. For unattended backups immediately after boot, consider using **Windows Task Scheduler** to launch WSL and start the cron service automatically.
 
 turn on firewall in windows security
+
+Yes. By default, **WSL distributions do not start automatically** when Windows boots. They only start when you run:
+
+```powershell
+wsl -d Ubuntu
+```
+
+Since your **cron job runs inside Ubuntu**, if Ubuntu is stopped, **cron is also stopped**, so your backup won't run.
+
+## Solution: Start Ubuntu Automatically at Windows Startup
+
+### Step 1: Create a PowerShell script
+
+Create a file:
+
+```
+C:\Scripts\StartUbuntu.ps1
+```
+
+Contents:
+
+```powershell
+# Start Ubuntu WSL
+wsl -d Ubuntu --exec bash -c "sudo service cron start"
+
+# Keep WSL running
+wsl -d Ubuntu --exec bash -c "tail -f /dev/null"
+```
+
+---
+
+## Step 2: Create a Scheduled Task
+
+Open **Task Scheduler**
+
+Click **Create Task**
+
+### General
+
+* Name: `Start Ubuntu WSL`
+* ✅ Run whether user is logged on or not
+* ✅ Run with highest privileges
+
+---
+
+### Trigger
+
+* At startup
+
+---
+
+### Action
+
+**Program**
+
+```
+powershell.exe
+```
+
+**Arguments**
+
+```text
+-ExecutionPolicy Bypass -File "C:\Scripts\StartUbuntu.ps1"
+```
+
+---
+
+### Conditions
+
+Uncheck
+
+```
+Start the task only if the computer is on AC power
+```
+
+---
+
+### Settings
+
+Enable
+
+```
+Run task as soon as possible after a scheduled start is missed
+```
+
+Click **OK**
+
+---
+
+## Step 3: Verify
+
+Restart Windows.
+
+Run:
+
+```powershell
+wsl -l -v
+```
+
+You should see:
+
+```
+NAME              STATE     VERSION
+Ubuntu            Running   2
+docker-desktop    Stopped   2
+```
+
+Then inside Ubuntu:
+
+```bash
+service cron status
+```
+
+should show
+
+```
+active (running)
+```
+
+---
+
+# Better Solution (Recommended)
+
+Instead of keeping Ubuntu running all the time, **use Windows Task Scheduler** to start WSL only every 5 minutes and execute the backup script.
+
+Create a scheduled task:
+
+**Program**
+
+```
+C:\Windows\System32\wsl.exe
+```
+
+**Arguments**
+
+```text
+-d Ubuntu --exec bash -c "/mnt/c/Users/mahesh.a/scripts/backup_script.sh"
+```
+
+Trigger:
+
+```
+Repeat every 5 minutes
+```
+
+Benefits:
+
+* ✅ No need to keep Ubuntu running 24/7.
+* ✅ No need for cron.
+* ✅ Works immediately after Windows starts.
+* ✅ Uses less memory and CPU.
+* ✅ More reliable because Windows Task Scheduler starts WSL only when needed.
+
+## Recommendation
+
+Since your goal is **a PostgreSQL backup every 5 minutes**, I recommend **removing cron entirely** and using **Windows Task Scheduler + `wsl.exe`** to invoke your script. It's simpler, more reliable after reboots, and avoids having to keep the Ubuntu distribution running continuously.
