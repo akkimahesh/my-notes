@@ -1,0 +1,42 @@
+Follows the instance's default:
+
+proceed with SonarQube default configurations.
+
+Is custom:
+
+I don't want SonarQube default configurations I want my custom configurations.
+
+Rules = What is wrong?
+Quality Profile = What rules should we use?
+Quality Gate = Is the project good enough to pass?
+
+security:
+Imagine you built a treehouse but forgot to lock the door. A stranger could get inside. That's like a security problem in code.
+
+Reliability:
+Will our application work correctly without crashing?
+
+Maintainability:
+Is the code easy for other people to understand and fix?
+
+Hotspots:
+Hotspots are pieces of code that might be dangerous from a security point of view and need someone to look at them.
+
+Coverage:
+Coverage asks: How much of our code is being tested automatically?
+
+Duplications:
+How much code is repeated?
+
+Quality Profiles:
+Collection of rules, that tells a code-quality tool what to check in your code.
+
+For example, in SonarQube, a Quality Profile might contain rules such as:
+
+Don't store password in code
+String password = "12345";
+
+Quality Gate:
+Quality Gate = A pass/fail checkpoint that decides whether your code is good enough to move forward.
+Here add the conditions, and assign to project.
+click on projects-->click on your project name-->go to quality gate left side-->assign your gate.
