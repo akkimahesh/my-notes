@@ -40,3 +40,103 @@ Quality Gate:
 Quality Gate = A pass/fail checkpoint that decides whether your code is good enough to move forward.
 Here add the conditions, and assign to project.
 click on projects-->click on your project name-->go to quality gate left side-->assign your gate.
+
+
+
+SonarQube Administration
+
+1. Analysis Scope 
+
+    Tells SonarQube which code/files it should check.
+    Also allows you to ignore certain files or folders.
+
+2. Authentication 
+
+    Controls who can log in to SonarQube.
+    Decides how users prove they are allowed to enter.
+
+3. DevOps Platform Integrations 
+
+    Connects SonarQube with tools such as:
+
+      GitHub
+      GitLab
+      Azure DevOps
+    Helps SonarQube work together with your source-code platform.
+
+4. Early Access Features 
+
+    Allows you to try new features.
+    These features may still be under testing.
+
+5. Email Notification 
+
+    Controls when SonarQube sends emails.
+    For example:
+
+      Quality Gate failed
+      Project analysis completed
+      Code quality problems
+
+6. External Analyzers 
+
+    Controls analysis information coming from other tools.
+    These tools can provide additional information about your code.
+
+7. General 
+
+    Contains general SonarQube settings.
+    Settings that don't belong to another specific category are usually here.
+
+8. Housekeeping 
+
+    Cleans up old SonarQube data.
+    Helps prevent the SonarQube database from becoming unnecessarily large.
+
+9. JaCoCo 
+
+    Used for Java code coverage.
+    Helps answer:
+
+     > "How much of my Java code is covered by tests?"
+
+10. Languages 
+
+     Contains settings for different programming languages.
+     Examples:
+
+       Java
+       JavaScript
+       C#
+       Python
+
+11. Mode 
+
+     Controls how SonarQube works in certain analysis/configuration modes.
+
+12. New Code 
+
+     Defines what SonarQube considers new code.
+     Helps SonarQube focus on problems introduced by recent changes.
+
+13. SCM 
+
+     SCM means Source Code Management.
+     Connects SonarQube with Git information.
+     Helps identify:
+
+       Who changed the code
+       When it was changed
+       Which lines were changed
+
+14. Security 
+
+     Controls security-related settings.
+     Helps SonarQube identify and manage security problems in your code.
+
+15. Technical Debt 
+
+     Estimates the time/effort required to fix code problems.
+     Example:
+
+      > "This code has problems that may take 3 hours to fix."
