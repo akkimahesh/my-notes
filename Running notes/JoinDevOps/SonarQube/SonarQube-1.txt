@@ -140,3 +140,9 @@ SonarQube Administration
      Example:
 
       > "This code has problems that may take 3 hours to fix."
+
+administration tasks:
+
+grant access only particular project to user.
+
+login as a administration user--> click on projects-->click on desired project you want-->go to project settings-->click permissions--> select user you want.
