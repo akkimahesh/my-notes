@@ -1,0 +1,46 @@
+networking
+==========
+docker network create <name>
+
+docker network connect <network_name> <container_name>
+
+docker network disconnect <network_name> <container_name>
+
+notes:
+======
+1. docker default bridge network have no permission to container to container communication with container name, But possible using IP address.
+
+2. If two containers are attached to different Docker networks on the same host, they cannot communicate directly by default.
+   instead:
+   docker network create net1
+   docker network create net2
+
+   docker run -d --name app1 --network net1 nginx
+   docker run -d --name app2 --network net2 nginx
+
+Connect app2 to net1:
+
+docker network connect net1 app2
+
+Now:
+===
+app1 and app2 can communicate over net1.
+app2 remains connected to net2 as well.
+
+You can verify:
+
+docker inspect app2
+
+You'll see both net1 and net2 under the Networks section.
+
+Option 2: Publish ports on the host
+===================================
+Expose a port from one container:
+
+docker run -d --name app1 --network net1 -p 8080:80 nginx
+
+The other container can access it via the Docker host's IP address:
+
+http://<host-ip>:8080
+
+
