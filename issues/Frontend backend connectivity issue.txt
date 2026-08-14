@@ -1,0 +1,5 @@
+1. check .env files in frontend
+2. make sure with developers endpoints urls have /api or not
+3. check nginx routing path.
+4. mainly check dev tools.
+5. allow frontend urls in backend. 

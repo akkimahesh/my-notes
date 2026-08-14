@@ -1,0 +1,7 @@
+1. when playing videos server load because server download and serve to fronted. best solution is implemented HLS conversion and stream through CDN.
+
+2. PPTX conversion PDF for speedy upload and easy stream without any load issue.
+
+3. playing xlsx files through https://view.officeapps.live.com/ which is provided by Microsoft. This is free and secure.
+
+4. webGL files uploads speedly without occupying RAM. stream through cdn.

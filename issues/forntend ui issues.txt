@@ -1,0 +1,2 @@
+1. check the latest code or not.
+2. if backend not connected to db or db not have proper schemas then also frontend issues.
