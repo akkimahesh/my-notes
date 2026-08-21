@@ -1,0 +1,59 @@
+Kubernetes runs your containers and manages your infrastructure.
+
+Helm install entire application at once and manage infrastructure. 
+
+Without Helm:
+=============
+
+You might have many Kubernetes YAML files:
+
+deployment.yaml
+service.yaml
+configmap.yaml
+secret.yaml
+ingress.yaml
+
+
+You would apply them manually:
+
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f configmap.yaml
+
+
+Managing different environments can become difficult.
+
+With Helm:
+==========
+
+You package those Kubernetes resources into a Helm Chart:
+
+my-app/
+├── Chart.yaml
+├── values.yaml
+└── templates/
+    ├── deployment.yaml
+    ├── service.yaml
+    └── ingress.yaml
+
+
+Then install the whole application with:
+
+helm install my-app ./my-app
+
+Why Helm is useful 
+
+Package applications — bundle Kubernetes YAML files into a reusable chart.
+Configuration — use values.yaml to customize things such as replicas, image versions, ports, etc.
+Easy installation — install an application with one command.
+
+Upgrades — change configuration or application versions with:
+
+helm upgrade my-app ./my-app
+
+Rollback — if an upgrade breaks something:
+
+helm rollback my-app 1
+
+Reusable charts — the same chart can be used for development, testing, and production with different values.
+Application repositories — you can install existing applications such as databases, monitoring systems, and ingress controllers from Helm repositories.
