@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+echo "========================================="
+echo "       k6 Installation Script"
+echo "========================================="
+
+# Update package list
+sudo apt update
+
+# Install GPG
+sudo apt install -y gpg
+
+# Download and install k6 GPG key
+curl -fsSL https://dl.k6.io/key.gpg | \
+sudo gpg --dearmor --yes \
+-o /usr/share/keyrings/k6-archive-keyring.gpg
+
+# Add k6 repository
+echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | \
+sudo tee /etc/apt/sources.list.d/k6.list > /dev/null
+
+# Update repositories
+sudo apt update
+
+# Install k6
+sudo apt install -y k6
+
+echo ""
+echo "========================================="
+echo "       k6 Installation Completed"
+echo "========================================="
+
+k6 version

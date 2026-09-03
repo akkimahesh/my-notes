@@ -1,0 +1,8 @@
+run: sh loadtest.sh
+
+save the file as loadtest.js
+
+run:- k6 run loadtest.js
+
+export TEST_EMAIL='superadmin@example.com'
+export TEST_PASSWORD='Admin@1234'
