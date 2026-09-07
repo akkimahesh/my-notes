@@ -1,0 +1,28 @@
+Here is the best approach to implement the backend logic for both the **Agency Salary** and **VIP Agent Salary**.
+
+### 1. Database & Timing Strategy
+Since this is a "Daily" salary, the best approach is to run an automated **Cron Job at 12:05 AM every night**. This job will look at the previous day's data (from 00:00:00 to 23:59:59) for every agent and calculate their eligible salary.
+
+### 2. Agency Salary Calculation Logic
+For every user who has invited people, the system will look at their **Level-1 Team**:
+*   **Step A (Count DAU):** The system counts how many of their Level-1 users had at least 1 successful approved deposit *on that day*. (This is the Daily Active User count).
+*   **Step B (Sum Recharge):** The system sums up the total deposit amount made by those DAU users *on that day*.
+*   **Step C (Match Tier):** The system loops through the Agency Tiers (from highest to lowest). If the agent meets **both** the DAU requirement and the Minimum Recharge requirement, they qualify for that tier's salary.
+
+### 3. VIP Agent Salary Calculation Logic
+This is simpler because it doesn't strictly require DAU.
+*   **Step A (Sum Level 1 Recharge):** The system sums up the total approved deposits made by **all** of the agent's Level-1 users for the day.
+*   **Step B (Match Tier):** The system finds the highest VIP tier they qualify for based on this total recharge amount.
+*   **Step C (10% Bonus Rule):** The VIP rules say *"DAU is not required, If achieved you will get 10% extra"*. We will define a strict DAU target for each VIP tier in the backend. If they hit the recharge target AND the DAU target, we add a 10% bonus to their VIP salary.
+
+### 4. Payout Logic
+*   **Prevent Double Dipping:** An agent should get whichever salary is **higher** between the Agency Salary and the VIP Salary (or we can stack them and give both, depending on what you prefer. Usually, platforms only award the highest qualified tier across both programs). 
+*   **Wallet:** The final salary amount is deposited directly into the agent's **Agent Balance**.
+*   **Ledger:** A clear transaction record (e.g., `Type: 'salary', Meta: 'Agency Salary - Performer Tier'`) is added so the agent sees exactly why they got the money.
+
+---
+
+### Questions for you before I write the code:
+1. **Payout Method:** Should agents get **both** salaries if they qualify for both, or should the system just give them the **highest paying one**?
+2. **Team Depth:** Should the DAU and Recharge targets only count **Level-1 (Direct)** referrals, or should it include their entire Level 1 + 2 + 3 downline?
+3. **Execution:** Do you want this to run fully automatically every night at midnight, or would you prefer an "Admin Claim" button where the admin reviews the stats and clicks "Pay Salaries"?
