@@ -1,0 +1,9 @@
+#1
+if you allow only particular security group to access you application...there you can use private IP of ec2 server.
+
+server-1 pgadmin or application (use server -2 private ip)
+
+server-2 Database (you allow only server-1 sg here)
+
+#2
+some times git clone not work on particular ...in that cases check security group outbound rules
