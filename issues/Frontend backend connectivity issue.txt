@@ -3,3 +3,4 @@
 3. check nginx routing path.
 4. mainly check dev tools.
 5. allow frontend urls in backend. 
+6. some backend url may not work (eg: /docs /swagger ) because developers block it when Production environment. So you must allow that urls in .env 
