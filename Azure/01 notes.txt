@@ -40,9 +40,15 @@ Virtual Network
 
 => This RG is designed for web hosting
 
+What is virtualnetwork?
+we can don't have access to hardware to touch. Azure will create isolated network on their hardware and assign to us as per our requirements.
+
+note:
+In Azure by default have internet access to outbound traffic. But in aws can't we need to create internet gateway and attach.
+if you want to connect from public you need public ip address. for inbound internet.
+
 Resource Group: RG-Database
 ===========================
-
 Inside services may be:
 Azure SQL Database
 Backup Storage
@@ -64,3 +70,5 @@ Monitoring Service
 2. given the name and region.
 3. No need to be select same region as RG.
 4. RG is only logical storage for services across all regions.
+
+firewall is paid service while creating vnet to monitoring traffic and more.
