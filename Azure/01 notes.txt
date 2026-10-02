@@ -72,3 +72,5 @@ Monitoring Service
 4. RG is only logical storage for services across all regions.
 
 firewall is paid service while creating vnet to monitoring traffic and more.
+
+DDoS: attackers send large ammout of requests in a same time.

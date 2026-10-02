@@ -1,0 +1,1 @@
+NXDOMAIN means the domain name does not exist in DNS yet.
