@@ -1,0 +1,22 @@
+AWS Auto Scaling
+================
+
+We have horizontal and vertical autoscaling.
+
+horizontal 
+same configuration multiple instances.
+
+vertical autoscaling
+one instance different configurations. we archieve this by manual.
+t3.micro create
+t3.micro terminate
+t3.small create
+t3.small terminate 
+t3.medium create
+This is time taken process. application have downtime.
+
+Horizontal autoscaling
+======================
+metric based
+schedule
+Predictive (ML based)
