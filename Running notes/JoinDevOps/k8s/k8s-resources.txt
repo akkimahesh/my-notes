@@ -7,6 +7,7 @@ namespace
 namespace is a isolated space inside the cluster, we can configure project related resources into it. we can easily manage multiple projects without any confusion.
 
 kubectl get ns --> get available namespaces
+kubectl api-resource --> resources details
 
 pod
 =====
