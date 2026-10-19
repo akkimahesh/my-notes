@@ -1,0 +1,19 @@
+when application serves media from Docker internal storage...we have to give execute permission for nginx.
+
+Because some time logos and media not play. without permission for nginx.
+
+why it happens?
+when server reboot Docker Daemon is reset. so that this happens.
+
+solution:
+mkdir -p /etc/systemd/system/docker.service.d
+cat << 'EOF' > /etc/systemd/system/docker.service.d/override.conf
+[Service]
+ExecStartPost=/usr/bin/chmod o+x /var/lib/docker
+EOF
+systemctl daemon-reload
+chmod o+x /var/lib/docker
+systemctl reload nginx
+
+
+ 

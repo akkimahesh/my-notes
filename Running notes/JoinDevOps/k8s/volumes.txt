@@ -70,6 +70,24 @@ EBS ->	PV	  -> PVC	-> Pod
 delete order:
 Pod ->	PVC	  ->	PV	-> EBS
 
+spec:
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1
 
+Storage Admin
+=============
+create a disks
 
+K8 admin
+========
+create a pv
 
+Devops Engineer
+==============
+attach that pv to the Project.
+
+some time you need too many disks for the project. so every time contacting administration team is not correct right. So we use storageclass. it is administration task.
+
+Storageclass---> one time task
+============
+you can create here EBS and PV at single time using Storageclass
