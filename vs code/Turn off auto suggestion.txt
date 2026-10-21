@@ -1,0 +1,18 @@
+Option 1: Turn off only Next Edit Suggestions (Recommended)
+
+This disables the red/green diff preview popups while keeping regular single-line autocomplete active.
+
+In VS Code, open Settings by pressing "Ctrl + ,"
+In the search bar at the top, paste:
+
+github.copilot.nextEditSuggestions.enabled
+
+Uncheck the box for GitHub > Copilot: Next Edit Suggestions Enabled.
+
+
+Method 1: Turn off Inline Suggestions in VS Code Settings (Easiest)
+Open Settings by pressing Ctrl + ,.
+In the search bar at the top, type:
+text
+editor.inlineSuggest.enabled
+Uncheck the box for Editor: Inline Suggest: Enabled.
