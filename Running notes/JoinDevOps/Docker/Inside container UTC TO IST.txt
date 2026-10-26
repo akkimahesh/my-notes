@@ -1,0 +1,9 @@
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+echo "Asia/Kolkata" > /etc/timezone
+date
+
+#IST TO UTC
+
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+echo "Etc/UTC" > /etc/timezone
+date
