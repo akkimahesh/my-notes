@@ -1,0 +1,3 @@
+aws s3 sync s3://vr-testing-chrp/courses/ s3://indus-towers-staging/courses/
+
+Data Transfer (Bandwidth) $0.00 (FREE) In AWS, transferring data between two S3 buckets in the same region costs nothing.
